@@ -3,13 +3,25 @@ import Menu from './components/Menu'
 import Game from './components/Game/Game'
 import './App.css'
 
+interface Ship {
+  size: number;
+  count: number;
+}
+
 function App() {
+
   const [gameStarted, setGameStarted] = useState(false);
-  const [shipCount, setShipCount] = useState(0);
+  const [ships, setShips] = useState<Ship[]>([
+    { size: 5, count: 0 },
+    { size: 4, count: 1 },
+    { size: 3, count: 2 },
+    { size: 2, count: 3 },
+    { size: 1, count: 4 },
+  ]);
   const [boardSize, setBoardSize] = useState(0);
 
-  const startGame = (shipCount: number, boardSize: number) => {
-    setShipCount(shipCount);
+  const startGame = (ships: Ship[], boardSize: number) => {
+    setShips(ships);
     setBoardSize(boardSize);
     setGameStarted(true);
   };
@@ -17,8 +29,8 @@ function App() {
   return (
     <>
       <h2>Морской бой</h2>
-      {!gameStarted && <Menu startGame={startGame}/>}
-      {gameStarted && <Game shipCount={shipCount} boardSize={boardSize} />}
+      {!gameStarted && <Menu startGame={startGame} />}
+      {gameStarted && <Game ships={ships} boardSize={boardSize} />}
     </>
   )
 }
