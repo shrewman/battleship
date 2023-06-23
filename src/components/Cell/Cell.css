@@ -1,0 +1,25 @@
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+}
+
+.cell:hover {
+    background-color: #99f8ff;
+}
+
+.cell-free {
+    background-color: #add8e6;
+}
+
+.cell-occupied {
+    background-color: black;
+}
+
+.cell-destroyed {
+    background-color: red;
+}
+
+.cell-fired {
+    background-color: gray;
+}

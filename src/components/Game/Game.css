@@ -1,0 +1,9 @@
+.board-container {
+    display: flex;
+    gap: 100px;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
