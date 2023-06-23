@@ -1,12 +1,15 @@
 import React from 'react';
 import Cell from '../Cell/Cell';
+import Ship from '../../types/Ship';
 import './Board.css'
 
 interface BoardProps {
     boardSize: number;
+    ships: Ship[];
+    setShips: React.Dispatch<React.SetStateAction<Ship[]>>;
 }
 
-const Board: React.FC<BoardProps> = ({ boardSize }) => {
+const Board: React.FC<BoardProps> = ({ boardSize, ships, setShips }) => {
     const board: JSX.Element[] = [];
 
     for (let i = 0; i < boardSize; i++) {

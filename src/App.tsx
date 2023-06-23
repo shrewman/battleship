@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Menu from './components/Menu'
+import Menu from './components/Menu/Menu'
 import Game from './components/Game/Game'
 import './App.css'
 
@@ -20,7 +20,7 @@ function App() {
   ]);
   const [boardSize, setBoardSize] = useState(0);
 
-  const startGame = (ships: Ship[], boardSize: number) => {
+  const handleStartGame = (ships: Ship[], boardSize: number) => {
     setShips(ships);
     setBoardSize(boardSize);
     setGameStarted(true);
@@ -28,9 +28,9 @@ function App() {
 
   return (
     <>
-      <h2>Морской бой</h2>
-      {!gameStarted && <Menu startGame={startGame} />}
-      {gameStarted && <Game ships={ships} boardSize={boardSize} />}
+      <h2>Морський бій</h2>
+      {!gameStarted && <Menu handleStartGame={handleStartGame} />}
+      {gameStarted && <Game ships={ships} boardSize={boardSize} setShips={setShips}/>}
     </>
   )
 }
