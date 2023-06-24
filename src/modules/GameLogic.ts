@@ -32,7 +32,7 @@ const initializeGameBoard = (boardSize: number): Cell[][] => {
   for (let i = 0; i < boardSize; i++) {
     const row: Cell[] = [];
     for (let j = 0; j < boardSize; j++) {
-      row.push({ row: i, col: j, status: 'free' });
+      row.push({ row: i, col: j, status: 'free', shotFired: false });
     }
     board.push(row);
   }
@@ -52,14 +52,9 @@ const placeShipsRandomly = (boardSize: number, ships: Ship[]): Cell[][] => {
   return board;
 };
 
-const startGame = (boardSize: number, ships: Ship[]): Game => {
+const getRandomlyFilledBoard = (boardSize: number, ships: Ship[]): Cell[][] => {
   const board = placeShipsRandomly(boardSize, ships);
+  return board;
+}
 
-  return {
-    boardSize,
-    ships,
-    board,
-  };
-};
-
-export default startGame;
+export default getRandomlyFilledBoard;

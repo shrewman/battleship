@@ -2,6 +2,7 @@ import React from 'react';
 import Cell from '../Cell/Cell';
 import Ship from '../../types/Ship';
 import './Board.css'
+import getRandomlyFilledBoard from '../../modules/GameLogic';
 
 interface BoardProps {
     boardSize: number;
@@ -10,18 +11,19 @@ interface BoardProps {
 }
 
 const Board: React.FC<BoardProps> = ({ boardSize, ships, setShips }) => {
-    const board: JSX.Element[] = [];
 
-    for (let i = 0; i < boardSize; i++) {
-        const row: JSX.Element[] = [];
-        for (let j = 0; j < boardSize; j++) {
-            row.push(<Cell key={`${i}-${j}`} status='free' shotFired={false} />);
-        }
-        board.push(<div key={i} className='board-row'>{row}</div>);
-    }
+    const randBoard = getRandomlyFilledBoard(boardSize, ships);
+
+    const boardContainer: JSX.Element[] = randBoard.map((row, i) => (
+        <div key={i} className="board-row">
+            {row.map((cell, j) => (
+                <Cell key={`${i}-${j}`} status={cell.status} shotFired={cell.shotFired} />
+            ))}
+        </div>
+    ));
 
     return (
-        <div className="board">{board}</div>
+        <div className="board">{boardContainer}</div>
     );
 }
 
