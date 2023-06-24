@@ -47,28 +47,23 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
           </select>
         </label>
         <br />
-        {/* <ShipCountSelector
-          label='Кількість 5-палубних кораблів'
-          value={ships[0].count}
-          optionValues={[0, 1]}
-          onChange={(e) => handleShipCountChange(e, 0)} /> */}
         <ShipCountSelector
-          label='Кількість 4-палубних кораблів'
+          label='4-палубні кораблі: '
           value={ships[1].count}
           optionValues={[0, 1, 2]}
           onChange={(e) => handleShipCountChange(e, 1)} />
         <ShipCountSelector
-          label='Кількість 3-палубних кораблів'
+          label='3-палубні кораблі: '
           value={ships[2].count}
           optionValues={[0, 1, 2]}
           onChange={(e) => handleShipCountChange(e, 2)} />
         <ShipCountSelector
-          label='Кількість 2-палубних кораблів'
+          label='2-палубні кораблі: '
           value={ships[3].count}
           optionValues={[0, 1, 2, 3]}
           onChange={(e) => handleShipCountChange(e, 3)} />
         <ShipCountSelector
-          label='Кількість 1-палубних кораблів'
+          label='1-палубні кораблі: '
           value={ships[4].count}
           optionValues={[0, 1, 2, 3, 4]}
           onChange={(e) => handleShipCountChange(e, 4)} />
