@@ -10,11 +10,11 @@ interface MenuProps {
 
 const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
   const [ships, setShips] = useState<Ship[]>([
-    { size: 1, count: 0 },
-    { size: 2, count: 0 },
-    { size: 3, count: 0 },
-    { size: 4, count: 0 },
     { size: 5, count: 0 },
+    { size: 4, count: 0 },
+    { size: 3, count: 0 },
+    { size: 2, count: 0 },
+    { size: 1, count: 0 },
   ]);
   const [boardSize, setBoardSize] = useState(7);
 
@@ -41,22 +41,22 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
         <label>
           Розмір поля:
           <select value={boardSize} onChange={handleBoardSizeChange}>
-            <option value={7}>7x7</option>
+            <option value={7}>8x8</option>
             <option value={10}>10x10</option>
-            <option value={12}>13x13</option>
+            <option value={12}>12x12</option>
           </select>
         </label>
         <br />
-        <ShipCountSelector
+        {/* <ShipCountSelector
           label='Кількість 5-палубних кораблів'
-          value={ships[4].count}
+          value={ships[0].count}
           optionValues={[0, 1]}
-          onChange={(e) => handleShipCountChange(e, 4)} />
+          onChange={(e) => handleShipCountChange(e, 0)} /> */}
         <ShipCountSelector
           label='Кількість 4-палубних кораблів'
-          value={ships[3].count}
+          value={ships[1].count}
           optionValues={[0, 1, 2]}
-          onChange={(e) => handleShipCountChange(e, 3)} />
+          onChange={(e) => handleShipCountChange(e, 1)} />
         <ShipCountSelector
           label='Кількість 3-палубних кораблів'
           value={ships[2].count}
@@ -64,14 +64,14 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
           onChange={(e) => handleShipCountChange(e, 2)} />
         <ShipCountSelector
           label='Кількість 2-палубних кораблів'
-          value={ships[1].count}
+          value={ships[3].count}
           optionValues={[0, 1, 2, 3]}
-          onChange={(e) => handleShipCountChange(e, 1)} />
+          onChange={(e) => handleShipCountChange(e, 3)} />
         <ShipCountSelector
           label='Кількість 1-палубних кораблів'
-          value={ships[0].count}
+          value={ships[4].count}
           optionValues={[0, 1, 2, 3, 4]}
-          onChange={(e) => handleShipCountChange(e, 0)} />
+          onChange={(e) => handleShipCountChange(e, 4)} />
 
         <button type="submit">Почати гру</button>
       </form>

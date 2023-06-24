@@ -2,7 +2,7 @@ import React from 'react';
 import './Cell.css';
 
 interface CellProps {
-  status: 'free' | 'occupied' | 'destroyed';
+  status: 'free' | 'occupied' | 'neighbour' | 'destroyed';
   shotFired: boolean;
 }
 
@@ -15,6 +15,8 @@ const Cell: React.FC<CellProps> = ({ status, shotFired }) => {
     cellClassName = 'cell-occupied';
   } else if (status === 'destroyed') {
     cellClassName = 'cell-destroyed';
+  } else if (status === 'neighbour') {
+    cellClassName = 'cell-neighbour';
   }
 
   if (status === 'free' && shotFired === true) {

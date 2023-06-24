@@ -1,7 +1,7 @@
 interface Cell {
-    row: number;
-    col: number;
-    status: 'free' | 'occupied' | 'destroyed';
+    x: number;
+    y: number;
+    status: 'free' | 'occupied' | 'neighbour' | 'destroyed';
     shotFired: boolean;
 }
 

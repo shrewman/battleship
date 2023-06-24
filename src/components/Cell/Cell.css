@@ -4,16 +4,24 @@
     border: 1px solid black;
 }
 
-.cell:hover {
-    background-color: #99f8ff;
-}
-
 .cell-free {
     background-color: #add8e6;
 }
 
+.cell-free:hover {
+    background-color: #affaff;
+}
+
 .cell-occupied {
-    background-color: black;
+    background-color: rgba(39, 39, 39, 0.9);
+}
+
+.cell-occupied:hover {
+    background-color: rgba(69, 69, 69, 0.9);
+}
+
+.cell-neighbour {
+    background-color: #45dce7;
 }
 
 .cell-destroyed {
