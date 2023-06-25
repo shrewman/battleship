@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Menu from './components/Menu/Menu'
 import Game from './components/Game/Game'
 import './App.css'
+import Cell from './types/Cell';
 
 interface Ship {
   size: number;
@@ -19,10 +20,12 @@ function App() {
     { size: 1, count: 4 },
   ]);
   const [boardSize, setBoardSize] = useState(0);
+  const [board, setBoard] = useState<Cell[][]>([]);
 
-  const handleStartGame = (ships: Ship[], boardSize: number) => {
-    setShips(ships);
+  const handleStartGame = (board:Cell[][], boardSize: number, ships: Ship[]) => {
+    setBoard(board)
     setBoardSize(boardSize);
+    setShips(ships);
     setGameStarted(true);
   };
 
@@ -30,7 +33,7 @@ function App() {
     <>
       <h2>Морський бій</h2>
       {!gameStarted && <Menu handleStartGame={handleStartGame} />}
-      {gameStarted && <Game ships={ships} boardSize={boardSize} setShips={setShips}/>}
+      {gameStarted && <Game board={board} ships={ships} boardSize={boardSize} />}
     </>
   )
 }
