@@ -3,6 +3,7 @@ import './Menu.css'
 import Ship from '../../types/Ship';
 import Board from '../Board/Board';
 import ShipCountSelector from './ShipCountSelector';
+import { getRandomlyFilledBoard } from '../../modules/GameLogic';
 
 interface MenuProps {
   handleStartGame: (ships: Ship[], boardSize: number) => void;
@@ -17,6 +18,11 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
     { size: 1, count: 0 },
   ]);
   const [boardSize, setBoardSize] = useState(7);
+  const [board, setBoard] = useState(getRandomlyFilledBoard(boardSize, ships));
+
+  const handleBoardRefresh = () => {
+    setBoard(getRandomlyFilledBoard(boardSize, ships));
+  }
 
   const handleShipCountChange = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
     const updatedShips = [...ships];
@@ -68,6 +74,7 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
           optionValues={[0, 1, 2, 3, 4]}
           onChange={(e) => handleShipCountChange(e, 4)} />
 
+        <button type='button' onClick={handleBoardRefresh}>⟳</button>
         <button type="submit">Почати гру</button>
       </form>
     </div>
