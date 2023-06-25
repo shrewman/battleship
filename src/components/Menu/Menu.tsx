@@ -19,7 +19,7 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
     { size: 1, count: 0 },
   ]);
   const [boardSize, setBoardSize] = useState<number>(10);
-  const [board, setBoard] = useState<Cell[][]>(getRandomlyFilledBoard(boardSize, ships));
+  const [board, setBoard] = useState<Cell[][]>([]);
 
   useEffect(() => {
     setBoard(getRandomlyFilledBoard(boardSize, ships));
@@ -46,7 +46,7 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
 
   return (
     <div className='menu-container'>
-      <Board board={board} />
+      <Board board={board} isOpponentsBoard={false} />
       <form onSubmit={handleSubmit}>
         <label>
           Розмір поля:

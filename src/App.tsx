@@ -3,15 +3,11 @@ import Menu from './components/Menu/Menu'
 import Game from './components/Game/Game'
 import './App.css'
 import Cell from './types/Cell';
-
-interface Ship {
-  size: number;
-  count: number;
-}
+import Ship from './types/Ship';
+import { Turn, TurnContext } from './context/TurnContext';
 
 function App() {
-
-  const [gameStarted, setGameStarted] = useState(false);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [ships, setShips] = useState<Ship[]>([
     { size: 5, count: 0 },
     { size: 4, count: 1 },
@@ -21,8 +17,9 @@ function App() {
   ]);
   const [boardSize, setBoardSize] = useState(0);
   const [board, setBoard] = useState<Cell[][]>([]);
+  const [turn, setTurn] = useState<Turn>(Math.random() < 0.5 ? 'P1' : 'P2');
 
-  const handleStartGame = (board:Cell[][], boardSize: number, ships: Ship[]) => {
+  const handleStartGame = (board: Cell[][], boardSize: number, ships: Ship[]) => {
     setBoard(board)
     setBoardSize(boardSize);
     setShips(ships);
@@ -32,8 +29,10 @@ function App() {
   return (
     <>
       <h2>Морський бій</h2>
-      {!gameStarted && <Menu handleStartGame={handleStartGame} />}
-      {gameStarted && <Game board={board} ships={ships} boardSize={boardSize} />}
+      <TurnContext.Provider value={turn}>
+        {!gameStarted && <Menu handleStartGame={handleStartGame} />}
+        {gameStarted && <Game board={board} ships={ships} boardSize={boardSize} />}
+      </TurnContext.Provider>
     </>
   )
 }

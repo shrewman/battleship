@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Ship from '../../types/Ship';
 import './Board.css'
 import CellContainer from '../CellContainer/CellContainer';
 import Cell from '../../types/Cell';
 
 interface BoardProps {
     board: Cell[][];
+    isOpponentsBoard: boolean;
 }
 
 const Board: React.FC<BoardProps> = ({ board }) => {
