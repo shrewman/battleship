@@ -7,10 +7,9 @@ import CellContainer from '../CellContainer/CellContainer';
 interface BoardProps {
     boardSize: number;
     ships: Ship[];
-    setShips: React.Dispatch<React.SetStateAction<Ship[]>>;
 }
 
-const Board: React.FC<BoardProps> = ({ boardSize, ships, setShips }) => {
+const Board: React.FC<BoardProps> = ({ boardSize, ships }) => {
 
     // const board = getEffectivelyFilledBoard(boardSize, ships);
     const board = getRandomlyFilledBoard(boardSize, ships);

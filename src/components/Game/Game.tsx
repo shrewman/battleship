@@ -14,8 +14,8 @@ const Game: React.FC<GameProps> = ({ boardSize, ships, setShips}) => {
         <div className="game-container">
             <div>Количество кораблей: {ships.map(ship => ship.size + ':' + ship.count + '\n')}</div>
             <div className="board-container">
-                <Board boardSize={boardSize} ships={ships} setShips={setShips}/>
-                <Board boardSize={boardSize} ships={ships} setShips={setShips}/>
+                <Board boardSize={boardSize} ships={ships} />
+                <Board boardSize={boardSize} ships={ships} />
             </div>
             <div>Количество кораблей: {ships.map(ship => ship.size + ':' + ship.count + '\n')}</div>
         </div>
