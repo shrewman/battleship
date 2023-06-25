@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Menu.css'
 import Ship from '../../types/Ship';
 import Board from '../Board/Board';
 import ShipCountSelector from './ShipCountSelector';
 import { getRandomlyFilledBoard } from '../../modules/GameLogic';
+import Cell from '../../types/Cell';
 
 interface MenuProps {
   handleStartGame: (ships: Ship[], boardSize: number) => void;
@@ -17,8 +18,12 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
     { size: 2, count: 0 },
     { size: 1, count: 0 },
   ]);
-  const [boardSize, setBoardSize] = useState(7);
-  const [board, setBoard] = useState(getRandomlyFilledBoard(boardSize, ships));
+  const [boardSize, setBoardSize] = useState<number>(7);
+  const [board, setBoard] = useState<Cell[][]>(getRandomlyFilledBoard(boardSize, ships));
+
+  useEffect(() => {
+    setBoard(getRandomlyFilledBoard(boardSize, ships));
+  }, [boardSize, ships]);
 
   const handleBoardRefresh = () => {
     setBoard(getRandomlyFilledBoard(boardSize, ships));
@@ -27,7 +32,6 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
   const handleShipCountChange = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
     const updatedShips = [...ships];
     updatedShips[index].count = parseInt(e.target.value);
-
     setShips(updatedShips);
   };
 
@@ -42,11 +46,13 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
 
   return (
     <div className='menu-container'>
-      <Board boardSize={boardSize} ships={ships} />
+      <Board board={board} boardSize={boardSize} ships={ships} />
       <form onSubmit={handleSubmit}>
         <label>
           Розмір поля:
-          <select value={boardSize} onChange={handleBoardSizeChange}>
+          <select value={boardSize} onChange={(e) => {
+            handleBoardSizeChange(e)
+          }}>
             <option value={7}>8x8</option>
             <option value={10}>10x10</option>
             <option value={12}>12x12</option>
