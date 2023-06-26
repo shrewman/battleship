@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './Menu.css'
 import Ship from '../../types/Ship';
-import Board from '../Board/Board';
 import ShipCountSelector from './ShipCountSelector';
 import { getRandomlyFilledBoard } from '../../modules/GameLogic';
 import Cell from '../../types/Cell';
+import MenuBoard from './MenuBoard';
 
 interface MenuProps {
   handleStartGame: (board: Cell[][], boardSize: number, ships: Ship[]) => void;
@@ -46,7 +46,7 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
 
   return (
     <div className='menu-container'>
-      <Board board={board} setBoard={setBoard} belongsTo='P1' />
+      <MenuBoard board={board} />
       <form onSubmit={handleSubmit}>
         <label>
           Розмір поля:

@@ -4,7 +4,7 @@ import Game from './components/Game/Game'
 import './App.css'
 import Cell from './types/Cell';
 import Ship from './types/Ship';
-import { Turn, TurnContext, TurnProvider } from './context/TurnContext';
+import { TurnProvider } from './context/TurnContext';
 
 function App() {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -17,7 +17,6 @@ function App() {
   ]);
   const [boardSize, setBoardSize] = useState(0);
   const [board, setBoard] = useState<Cell[][]>([]);
-  const [turn, setTurn] = useState<Turn>(Math.random() < 0.5 ? 'P1' : 'P2');
 
   const handleStartGame = (board: Cell[][], boardSize: number, ships: Ship[]) => {
     setBoard(board)
