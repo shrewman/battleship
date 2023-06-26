@@ -4,7 +4,7 @@ import Game from './components/Game/Game'
 import './App.css'
 import Cell from './types/Cell';
 import Ship from './types/Ship';
-import { Turn, TurnContext } from './context/TurnContext';
+import { Turn, TurnContext, TurnProvider } from './context/TurnContext';
 
 function App() {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -29,10 +29,10 @@ function App() {
   return (
     <>
       <h2>Морський бій</h2>
-      <TurnContext.Provider value={turn}>
+      <TurnProvider>
         {!gameStarted && <Menu handleStartGame={handleStartGame} />}
-        {gameStarted && <Game board={board} ships={ships} boardSize={boardSize} />}
-      </TurnContext.Provider>
+        {gameStarted && <Game board={board} setBoard={setBoard} ships={ships} boardSize={boardSize} />}
+      </TurnProvider>
     </>
   )
 }

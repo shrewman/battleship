@@ -46,7 +46,7 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
 
   return (
     <div className='menu-container'>
-      <Board board={board} belongsTo='P1' />
+      <Board board={board} setBoard={setBoard} belongsTo='P1' />
       <form onSubmit={handleSubmit}>
         <label>
           Розмір поля:

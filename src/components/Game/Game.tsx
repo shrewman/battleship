@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SetStateAction, useContext, useState } from "react";
 import Board from "../Board/Board";
 import './Game.css'
 import Ship from '../../types/Ship';
@@ -8,12 +8,13 @@ import { TurnContext } from "../../context/TurnContext";
 
 interface GameProps {
     board: Cell[][];
+    setBoard: React.Dispatch<SetStateAction<Cell[][]>>;
     boardSize: number;
     ships: Ship[];
 }
 
-const Game: React.FC<GameProps> = ({ board, boardSize, ships }) => {
-    const turn = useContext(TurnContext);
+const Game: React.FC<GameProps> = ({ board, setBoard, boardSize, ships }) => {
+    const { turn, passTurn }= useContext(TurnContext);
 
     return (
         <>
@@ -21,8 +22,8 @@ const Game: React.FC<GameProps> = ({ board, boardSize, ships }) => {
             <div className="game-container">
                 <div>Количество кораблей: {ships.map(ship => ship.size + ':' + ship.count + '\n')}</div>
                 <div className="board-container">
-                    <Board board={board} belongsTo="P1" />
-                    <Board board={getRandomlyFilledBoard(boardSize, ships)} belongsTo="P2" />
+                    <Board board={board} setBoard={setBoard} belongsTo="P1" />
+                    <Board board={getRandomlyFilledBoard(boardSize, ships)} setBoard={setBoard} belongsTo="P2" />
                 </div>
                 <div>Количество кораблей: {ships.map(ship => ship.size + ':' + ship.count + '\n')}</div>
             </div>
