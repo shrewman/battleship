@@ -21,8 +21,8 @@ const Game: React.FC<GameProps> = ({ board, boardSize, ships }) => {
             <div className="game-container">
                 <div>Количество кораблей: {ships.map(ship => ship.size + ':' + ship.count + '\n')}</div>
                 <div className="board-container">
-                    <Board board={board} isOpponentsBoard={false} />
-                    <Board board={getRandomlyFilledBoard(boardSize, ships)} isOpponentsBoard={true} />
+                    <Board board={board} belongsTo="P1" />
+                    <Board board={getRandomlyFilledBoard(boardSize, ships)} belongsTo="P2" />
                 </div>
                 <div>Количество кораблей: {ships.map(ship => ship.size + ':' + ship.count + '\n')}</div>
             </div>
