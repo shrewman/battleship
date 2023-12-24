@@ -1,17 +1,17 @@
 import Cell from "../types/Cell";
 import Ship from "../types/Ship";
 
-type Direction = 'horizontal' | 'vertical';
+type Orientation = 'horizontal' | 'vertical';
 interface Position {
   x: number,
   y: number
 }
 
-const getRandomDirection = (): Direction => {
+const getRandomOrientation = (): Orientation => {
   return Math.random() < 0.5 ? 'horizontal' : 'vertical';
 };
 
-const isValidPlacement = (board: Cell[][], position: Position, shipSize: number, direction: Direction): boolean => {
+const isValidPlacement = (board: Cell[][], position: Position, shipSize: number, direction: Orientation): boolean => {
   const { x, y } = position;
   const boardSize = board.length;
   if (direction === 'horizontal') {
@@ -35,7 +35,7 @@ const setNeighbour = (board: Cell[][], x: number, y: number): void => {
   }
 }
 
-const placeShip = (board: Cell[][], position: Position, shipSize: number, direction: Direction): void => {
+const placeShip = (board: Cell[][], position: Position, shipSize: number, direction: Orientation): void => {
   const { x, y } = position;
 
   if (!isValidPlacement(board, position, shipSize, direction)) {
@@ -71,7 +71,7 @@ const placeShip = (board: Cell[][], position: Position, shipSize: number, direct
 
 const placeShipRandomly = (board: Cell[][], shipSize: number): void => {
   const boardSize = board.length * board.length;
-  const direction = getRandomDirection();
+  const direction = getRandomOrientation();
 
   let x, y;
   if (direction === 'horizontal') {

@@ -14,7 +14,7 @@ interface CellProps {
   onFire: (x: number, y: number) => void;
 }
 
-const CellContainer: React.FC<CellProps> = ({ position, status, belongsTo, shotFired, onFire }) => {
+const CellElement: React.FC<CellProps> = ({ position, status, belongsTo, shotFired, onFire }) => {
   let cellBelonging = '';
   let cellStatus = '';
   let cellFired = '';
@@ -52,4 +52,4 @@ const CellContainer: React.FC<CellProps> = ({ position, status, belongsTo, shotF
   return <div className={`cell ${cellBelonging} ${cellStatus} ${cellFired}`} onClick={handleClick} />;
 };
 
-export default CellContainer;
+export default CellElement;

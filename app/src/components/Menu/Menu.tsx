@@ -60,6 +60,11 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame: startGame }) => {
         </label>
         <br />
         <ShipCountSelector
+          label='5-палубні кораблі: '
+          value={ships[0].count}
+          optionValues={[0, 1]}
+          onChange={(e) => handleShipCountChange(e, 0)} />
+        <ShipCountSelector
           label='4-палубні кораблі: '
           value={ships[1].count}
           optionValues={[0, 1, 2]}

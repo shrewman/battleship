@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import './MenuBoard.css'
-import CellContainer from '../CellElement/CellElement';
+import CellElement from '../CellElement/CellElement';
 import Cell from '../../types/Cell';
 
 interface BoardProps {
@@ -12,7 +12,7 @@ const Board: React.FC<BoardProps> = ({ board }) => {
         return board.map((row, i) => (
             <div key={i} className="board-row">
                 {row.map((cell, j) => (
-                    <CellContainer
+                    <CellElement
                         key={`${i}-${j}`}
                         position={{ x: i, y: j }}
                         status={cell.status}
