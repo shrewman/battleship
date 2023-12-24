@@ -16,10 +16,9 @@ const Board: React.FC<BoardProps> = ({ board, belongsTo }) => {
     const boardContainer = useMemo(() => {
         const handleCellFire = (x: number, y: number): void => {
             if (turn !== 'P1') return;
-            if (boardState[x][y].shotFired) return;
+            if (boardState[x][y].state !== 'unknown') return;
 
             const updatedBoard = [...boardState];
-            updatedBoard[x][y].shotFired = true;
             setBoardState(updatedBoard);
             passTurn();
         };
@@ -30,9 +29,8 @@ const Board: React.FC<BoardProps> = ({ board, belongsTo }) => {
                     <CellElement
                         key={`${i}-${j}`}
                         position={{ x: i, y: j }}
-                        status={cell.status}
+                        state={cell.state}
                         belongsTo={belongsTo}
-                        shotFired={cell.shotFired}
                         onFire={handleCellFire}
                     />
                 ))}

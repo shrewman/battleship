@@ -8,16 +8,14 @@ interface Position {
 
 interface CellProps {
   position: Position;
-  status: 'free' | 'occupied' | 'neighbour' | 'destroyed' | 'fired';
+  state: 'empty' | 'ship' | 'neighbour' | 'hit' | 'unknown';
   belongsTo: 'P1' | 'P2';
-  shotFired: boolean;
   onFire: (x: number, y: number) => void;
 }
 
-const CellElement: React.FC<CellProps> = ({ position, status, belongsTo, shotFired, onFire }) => {
+const CellElement: React.FC<CellProps> = ({ position, state: status, belongsTo, onFire }) => {
   let cellBelonging = '';
   let cellStatus = '';
-  let cellFired = '';
 
   if (belongsTo === 'P1') {
     cellBelonging = 'p1-cell';
@@ -25,23 +23,14 @@ const CellElement: React.FC<CellProps> = ({ position, status, belongsTo, shotFir
     cellBelonging = 'p2-cell';
   }
 
-  if (status === 'free') {
+  if (status === 'empty') {
     cellStatus = 'cell-free';
-  } else if (status === 'occupied') {
+  } else if (status === 'ship') {
     cellStatus = 'cell-occupied';
-  } else if (status === 'destroyed') {
+  } else if (status === 'hit') {
     cellStatus = 'cell-destroyed';
   } else if (status === 'neighbour') {
     cellStatus = 'cell-neighbour';
-  }
-
-  if (shotFired === true) {
-    cellFired = 'cell-fired'
-  }
-
-  if (status === 'occupied' && shotFired === true) {
-    cellStatus = 'cell-destroyed';
-    cellFired = 'cell-fired'
   }
 
   const handleClick = () => {
@@ -49,7 +38,7 @@ const CellElement: React.FC<CellProps> = ({ position, status, belongsTo, shotFir
       onFire(position.x, position.y);
   };
 
-  return <div className={`cell ${cellBelonging} ${cellStatus} ${cellFired}`} onClick={handleClick} />;
+  return <div className={`cell ${cellBelonging} ${cellStatus}`} onClick={handleClick} />;
 };
 
 export default CellElement;

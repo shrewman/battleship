@@ -1,8 +1,5 @@
 interface Cell {
-    x: number;
-    y: number;
-    status: 'free' | 'occupied' | 'neighbour' | 'destroyed' | 'fired';
-    shotFired: boolean;
+    state: 'empty' | 'ship' | 'neighbour' | 'hit' | 'unknown';
 }
 
 export default Cell;

@@ -15,9 +15,8 @@ const Board: React.FC<BoardProps> = ({ board }) => {
                     <CellElement
                         key={`${i}-${j}`}
                         position={{ x: i, y: j }}
-                        status={cell.status}
+                        state={cell.state}
                         belongsTo={'P1'}
-                        shotFired={cell.shotFired}
                         onFire={() => { '' }}
                     />
                 ))}

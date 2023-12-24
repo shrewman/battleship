@@ -24,8 +24,8 @@ const placeShip = (
     }
 
     const setNeighbourForCell = (x: number, y: number): void => {
-        if (board[x] && board[x][y] && board[x][y].status === "free") {
-            board[x][y].status = "neighbour";
+        if (board[x] && board[x][y] && board[x][y].state === "empty") {
+            board[x][y].state = "neighbour";
         }
     };
 
@@ -34,7 +34,7 @@ const placeShip = (
         setNeighbourForCell(x - 1, y + 1);
         setNeighbourForCell(x - 1, y - 1);
         for (let i = x; i < x + shipSize; i++) {
-            board[i][y].status = "occupied";
+            board[i][y].state = "ship";
             setNeighbourForCell(i, y + 1);
             setNeighbourForCell(i, y - 1);
         }
@@ -46,7 +46,7 @@ const placeShip = (
         setNeighbourForCell(x + 1, y - 1);
         setNeighbourForCell(x - 1, y - 1);
         for (let i = y; i < y + shipSize; i++) {
-            board[x][i].status = "occupied";
+            board[x][i].state = "ship";
             setNeighbourForCell(x + 1, i);
             setNeighbourForCell(x - 1, i);
         }
@@ -67,7 +67,7 @@ const isValidPlacement = (
     if (direction === "horizontal") {
         for (let i = x; i < x + shipSize; i++) {
             if (
-                ["occupied", "neighbour"].includes(board[i][y].status) ||
+                ["occupied", "neighbour"].includes(board[i][y].state) ||
                 i > boardSize
             )
                 return false;
@@ -75,7 +75,7 @@ const isValidPlacement = (
     } else {
         for (let i = y; i < y + shipSize; i++) {
             if (
-                ["occupied", "neighbour"].includes(board[x][i].status) ||
+                ["occupied", "neighbour"].includes(board[x][i].state) ||
                 i > boardSize
             )
                 return false;
@@ -107,7 +107,7 @@ const initializeGameBoard = (boardSize: number): Cell[][] => {
     for (let i = 0; i < boardSize; i++) {
         const row: Cell[] = [];
         for (let j = 0; j < boardSize; j++) {
-            row.push({ x: i, y: j, status: "free", shotFired: false });
+            row.push({ state: "empty" });
         }
         board.push(row);
     }
