@@ -1,8 +1,0 @@
-.menu-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.menu-container form {
-    align-self: center;
-}

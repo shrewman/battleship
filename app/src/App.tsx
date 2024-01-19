@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Menu from './components/Menu/Menu'
-import Game from './components/Game/Game'
+import Game from './components/Game'
 import './App.css'
 import Cell from './types/Cell';
 import Ship from './types/Ship';

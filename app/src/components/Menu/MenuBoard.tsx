@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
-import './MenuBoard.css'
-import CellElement from '../CellElement/CellElement';
+import CellElement from '../CellElement';
 import Cell from '../../types/Cell';
 
 interface BoardProps {
