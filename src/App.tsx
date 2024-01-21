@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu";
 import Game from "./components/Game";
@@ -16,6 +16,12 @@ function App() {
         2: 0,
         1: 0,
     });
+
+    useEffect(() => {
+        if (boardSize < 10) {
+            setShipCount((prev) => ({ ...prev, 5: 0 }));
+        }
+    }, [boardSize]);
 
     const startGame = () => {
         setIsStarted(true);
