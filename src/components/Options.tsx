@@ -36,12 +36,15 @@ const Options = () => {
                     </select>
                 </label>
             </div>
-            <ShipCountSelector
-                label="5-палубні кораблі: "
-                value={shipCount[0].count}
-                optionValues={[0, 1]}
-                onChange={(e) => handleShipCountChange(e, 0)}
-            />
+            {
+                boardSize >= 10 &&
+                <ShipCountSelector
+                    label="5-палубні кораблі: "
+                    value={shipCount[0].count}
+                    optionValues={[0, 1]}
+                    onChange={(e) => handleShipCountChange(e, 0)}
+                />
+            }
             <ShipCountSelector
                 label="4-палубні кораблі: "
                 value={shipCount[1].count}
