@@ -1,7 +1,7 @@
 import Options from "./Options";
+import { useMenuContext } from "../context/UseMenuContext";
 
 const Menu = () => {
-
     return (
         <>
             <MenuBoard />
@@ -13,7 +13,15 @@ const Menu = () => {
 export default Menu;
 
 const MenuBoard = () => {
-    return <>Board</>;
+    const { boardSize, setBoardSize, shipCount, setShipCount } =
+        useMenuContext();
+
+    return (
+        <>
+            <p>{boardSize}</p>
+            <p>{shipCount.map(obj => <p>{obj.count}</p>)}</p>
+        </>
+    );
 };
 
 const MenuCell = () => {

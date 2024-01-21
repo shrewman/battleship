@@ -1,15 +1,11 @@
-import { useState } from "react";
+import React from "react";
 import ShipCountSelector from "./ShipCountSelector";
+import { ShipCount } from "../types";
+import { useMenuContext } from "../context/UseMenuContext";
 
 const Options = () => {
-    const [boardSize, setBoardSize] = useState(10);
-    const [shipCount, setShipCount] = useState([
-        { size: 5, count: 0 },
-        { size: 4, count: 0 },
-        { size: 3, count: 0 },
-        { size: 2, count: 0 },
-        { size: 1, count: 0 },
-    ]);
+    const { boardSize, setBoardSize, shipCount, setShipCount } =
+        useMenuContext();
 
     const handleBoardSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setBoardSize(parseInt(e.target.value));
@@ -19,7 +15,7 @@ const Options = () => {
         e: React.ChangeEvent<HTMLSelectElement>,
         index: number
     ) => {
-        const updatedShips = [...shipCount];
+        const updatedShips: ShipCount = [...shipCount];
         updatedShips[index].count = parseInt(e.target.value);
         setShipCount(updatedShips);
     };
@@ -73,6 +69,5 @@ const Options = () => {
         </>
     );
 };
-
 
 export default Options;
