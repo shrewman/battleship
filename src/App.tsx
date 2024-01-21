@@ -8,11 +8,18 @@ function App() {
         isStarted: false,
     });
 
+    const startGame = () => {
+        setGameState({ ...gameState, isStarted: true });
+    };
+
     return (
         <>
             <h1>Морський бій</h1>
             {!gameState.isStarted && <Menu />}
             {gameState.isStarted && <Game />}
+            <div>
+                <button onClick={startGame}>Start</button>
+            </div>
         </>
     );
 }
