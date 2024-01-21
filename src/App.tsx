@@ -9,13 +9,13 @@ function App() {
     const [isStarted, setIsStarted] = useState(false);
 
     const [boardSize, setBoardSize] = useState(10);
-    const [shipCount, setShipCount] = useState<ShipCount>([
-        { size: 5, count: 0 },
-        { size: 4, count: 0 },
-        { size: 3, count: 0 },
-        { size: 2, count: 0 },
-        { size: 1, count: 0 },
-    ]);
+    const [shipCount, setShipCount] = useState<ShipCount>({
+        5: 0,
+        4: 0,
+        3: 0,
+        2: 0,
+        1: 0,
+    });
 
     const startGame = () => {
         setIsStarted(true);

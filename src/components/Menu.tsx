@@ -19,7 +19,13 @@ const MenuBoard = () => {
     return (
         <>
             <p>{boardSize}</p>
-            <p>{shipCount.map(obj => <p>{obj.count}</p>)}</p>
+            <p>
+                {Object.entries(shipCount).map(([size, count]) => (
+                    <p key={size}>
+                        Size: {size}, Count: {count}
+                    </p>
+                ))}
+            </p>
         </>
     );
 };

@@ -14,10 +14,6 @@ export type MenuCell = {
     state: "free" | "ship";
 };
 
-type ShipCount = [
-    { size: 5; count: number },
-    { size: 4; count: number },
-    { size: 3; count: number },
-    { size: 2; count: number },
-    { size: 1; count: number }
-];
+type ShipCount = {
+    [key in 1 | 2 | 3 | 4 | 5]: number;
+}

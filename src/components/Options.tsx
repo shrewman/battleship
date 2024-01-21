@@ -13,12 +13,13 @@ const Options = () => {
 
     const handleShipCountChange = (
         e: React.ChangeEvent<HTMLSelectElement>,
-        index: number
+        size: number
     ) => {
-        const updatedShips: ShipCount = [...shipCount];
-        updatedShips[index].count = parseInt(e.target.value);
+        const updatedShips: ShipCount = { ...shipCount };
+        updatedShips[size as 5 | 4 | 3 | 2 | 1] = parseInt(e.target.value);
         setShipCount(updatedShips);
     };
+
     return (
         <>
             <div className="ship-count-selector">
@@ -36,38 +37,37 @@ const Options = () => {
                     </select>
                 </label>
             </div>
-            {
-                boardSize >= 10 &&
+            {boardSize >= 10 && (
                 <ShipCountSelector
                     label="5-палубні кораблі: "
-                    value={shipCount[0].count}
+                    value={shipCount[5]}
                     optionValues={[0, 1]}
-                    onChange={(e) => handleShipCountChange(e, 0)}
+                    onChange={(e) => handleShipCountChange(e, 5)}
                 />
-            }
+            )}
             <ShipCountSelector
                 label="4-палубні кораблі: "
-                value={shipCount[1].count}
+                value={shipCount[4]}
                 optionValues={[0, 1, 2]}
-                onChange={(e) => handleShipCountChange(e, 1)}
+                onChange={(e) => handleShipCountChange(e, 4)}
             />
             <ShipCountSelector
                 label="3-палубні кораблі: "
-                value={shipCount[2].count}
+                value={shipCount[3]}
                 optionValues={[0, 1, 2]}
-                onChange={(e) => handleShipCountChange(e, 2)}
-            />
-            <ShipCountSelector
-                label="2-палубні кораблі: "
-                value={shipCount[3].count}
-                optionValues={[0, 1, 2, 3]}
                 onChange={(e) => handleShipCountChange(e, 3)}
             />
             <ShipCountSelector
+                label="2-палубні кораблі: "
+                value={shipCount[2]}
+                optionValues={[0, 1, 2, 3]}
+                onChange={(e) => handleShipCountChange(e, 2)}
+            />
+            <ShipCountSelector
                 label="1-палубні кораблі: "
-                value={shipCount[4].count}
+                value={shipCount[1]}
                 optionValues={[0, 1, 2, 3, 4]}
-                onChange={(e) => handleShipCountChange(e, 4)}
+                onChange={(e) => handleShipCountChange(e, 1)}
             />
         </>
     );
