@@ -4,3 +4,17 @@
   padding: 2rem;
   text-align: center;
 }
+
+.board-row {
+  display: flex;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+}
+
+.cell-free {
+  background-color: #add8e6;
+}
