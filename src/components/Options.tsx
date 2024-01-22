@@ -15,8 +15,13 @@ const Options = () => {
         e: React.ChangeEvent<HTMLSelectElement>,
         size: number
     ) => {
-        const updatedShips: ShipCount = { ...shipCount };
-        updatedShips[size as 5 | 4 | 3 | 2 | 1] = parseInt(e.target.value);
+        const count = parseInt(e.target.value);
+        const updatedShips: ShipCount[] = shipCount.map((ships) => {
+            if (ships.size === size) {
+                ships.count = count;
+            }
+            return ships;
+        });
         setShipCount(updatedShips);
     };
 
@@ -40,32 +45,32 @@ const Options = () => {
             {boardSize >= 10 && (
                 <ShipCountSelector
                     label="5-палубні кораблі: "
-                    value={shipCount[5]}
+                    value={shipCount.find((shipCount) => shipCount.size === 5)?.count || 0}
                     optionValues={[0, 1]}
                     onChange={(e) => handleShipCountChange(e, 5)}
                 />
             )}
             <ShipCountSelector
                 label="4-палубні кораблі: "
-                value={shipCount[4]}
+                value={shipCount.find((shipCount) => shipCount.size === 4)?.count || 0}
                 optionValues={[0, 1, 2]}
                 onChange={(e) => handleShipCountChange(e, 4)}
             />
             <ShipCountSelector
                 label="3-палубні кораблі: "
-                value={shipCount[3]}
+                value={shipCount.find((shipCount) => shipCount.size === 3)?.count || 0}
                 optionValues={[0, 1, 2]}
                 onChange={(e) => handleShipCountChange(e, 3)}
             />
             <ShipCountSelector
                 label="2-палубні кораблі: "
-                value={shipCount[2]}
+                value={shipCount.find((shipCount) => shipCount.size === 2)?.count || 0}
                 optionValues={[0, 1, 2, 3]}
                 onChange={(e) => handleShipCountChange(e, 2)}
             />
             <ShipCountSelector
                 label="1-палубні кораблі: "
-                value={shipCount[1]}
+                value={shipCount.find((shipCount) => shipCount.size === 1)?.count || 0}
                 optionValues={[0, 1, 2, 3, 4]}
                 onChange={(e) => handleShipCountChange(e, 1)}
             />

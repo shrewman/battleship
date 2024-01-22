@@ -19,7 +19,8 @@ export type MenuCell = {
 };
 
 type ShipCount = {
-    [key in 1 | 2 | 3 | 4 | 5]: number;
+    size: number;
+    count: number;
 }
 
 type Board = MenuCell[][];

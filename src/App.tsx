@@ -3,23 +3,26 @@ import "./App.css";
 import Menu from "./components/Menu";
 import Game from "./components/Game";
 import { MenuContext } from "./context/MenuContext";
-import { ShipCount } from "./types";
+import { ShipCount, Ship } from "./types";
 
 function App() {
     const [isStarted, setIsStarted] = useState(false);
 
     const [boardSize, setBoardSize] = useState(10);
-    const [shipCount, setShipCount] = useState<ShipCount>({
-        5: 0,
-        4: 0,
-        3: 0,
-        2: 0,
-        1: 0,
-    });
+    const [shipCount, setShipCount] = useState<ShipCount[]>([
+        { size: 5, count: 0 },
+        { size: 4, count: 0 },
+        { size: 3, count: 0 },
+        { size: 2, count: 0 },
+        { size: 1, count: 0 },
+    ]);
 
     useEffect(() => {
         if (boardSize < 10) {
-            setShipCount((prev) => ({ ...prev, 5: 0 }));
+            setShipCount((prevShipCount) => 
+                prevShipCount.map((ship) =>
+                    ship.size === 5 ? { ...ship, count: 0 } : ship
+                ));
         }
     }, [boardSize]);
 

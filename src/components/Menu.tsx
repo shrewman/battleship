@@ -1,7 +1,7 @@
 import Options from "./Options";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useMenuContext } from "../context/UseMenuContext";
-import { initEmptyBoard } from "../gameLogic";
+import { getRandomlyFilledBoard } from "../gameLogic";
 import { MenuCellState } from "../types";
 
 const Menu = () => {
@@ -18,25 +18,31 @@ export default Menu;
 const MenuBoard = () => {
     const { boardSize, shipCount } = useMenuContext();
 
-    const [board, setBoard] = useState(initEmptyBoard(boardSize));
+    const [board, setBoard] = useState(
+        getRandomlyFilledBoard(boardSize, shipCount)
+    );
+
+    const boardContainer = useMemo(() => {
+        return board.map((column, columnIndex) => (
+            <div key={columnIndex} className="board-row">
+                {column.map((cell, cellIndex) => (
+                    <MenuCell key={cellIndex} state={cell.state} />
+                ))}
+            </div>
+        ));
+    }, [board]);
 
     return (
         <>
             <p>{boardSize}</p>
             <p>
-                {Object.entries(shipCount).map(([size, count]) => (
-                    <p key={size}>
-                        Size: {size}, Count: {count}
+                {shipCount.map((ships) => (
+                    <p key={ships.size}>
+                        Size: {ships.size}, Count: {ships.count}
                     </p>
                 ))}
             </p>
-            {board.map((column, columnIndex) => (
-                <div key={columnIndex} className="board-column">
-                    {column.map((cell, cellIndex) => (
-                        <MenuCell key={cellIndex} state={cell.state} />
-                    ))}
-                </div>
-            ))}
+            {boardContainer}
         </>
     );
 };

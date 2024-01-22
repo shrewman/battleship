@@ -1,4 +1,4 @@
-import { Ship, Board, Position } from "./types";
+import { Orientation, Ship, Board, Position, ShipCount } from "./types";
 
 export const initEmptyBoard = (boardSize: number) => {
     const board: Board = [];
@@ -56,19 +56,44 @@ const placeShip = (board: Board, ship: Ship) => {
     const { orientation, size, position } = ship;
     const { x, y } = position;
 
-    if(orientation === 'horizontal') {
-        for(let i = x; i < x + size; i++) {
+    if (orientation === "horizontal") {
+        for (let i = x; i < x + size; i++) {
             board[i][y].state = "ship";
         }
     } else {
-        for(let i = y; i < y + size; i++) {
+        for (let i = y; i < y + size; i++) {
             board[x][i].state = "ship";
         }
     }
 };
 
-export const getRandomlyFilledBoard = (boardSize: number, ships: Ship[]) => {
-    const board = initEmptyBoard(boardSize)
+const shipCountToShips = (shipCounts: ShipCount[]) => {
+    const getRandomOrientation = (): Orientation => {
+        return Math.random() < 0.5 ? "horizontal" : "vertical";
+    };
+
+    const ships: Ship[] = [];
+
+    for (const shipCount of shipCounts) {
+        const { count, size } = shipCount;
+        for (let i = 0; i < count; i++) {
+            const ship: Ship = {
+                position: { x: 0, y: 0 },
+                size,
+                orientation: getRandomOrientation(),
+            };
+            ships.push(ship);
+        }
+    }
+
+    return ships;
+};
+
+export const getRandomlyFilledBoard = (
+    boardSize: number,
+    shipCount: ShipCount[]
+) => {
+    const board = initEmptyBoard(boardSize);
     const invalidPlacements: ShipPositions = {
         5: [],
         4: [],
@@ -77,13 +102,16 @@ export const getRandomlyFilledBoard = (boardSize: number, ships: Ship[]) => {
         1: [],
     };
 
-    const random = (x = 0, y = board.length) =>
-        Math.floor(Math.random() * (y - x + 1)) + x;
+    const random = (x = 0, y = board.length) => {
+        return Math.floor(Math.random() * (y - x + 1)) + x;
+    };
 
     const isPositionInShip = (size: number, pos: Position) => {
         const positions = invalidPlacements[size];
         return positions.some((p) => p.x === pos.x && p.y === pos.y);
     };
+
+    const ships = shipCountToShips(shipCount);
 
     for (let i = 0; i < ships.length; i++) {
         const ship = ships[i];
@@ -98,4 +126,5 @@ export const getRandomlyFilledBoard = (boardSize: number, ships: Ship[]) => {
             invalidPlacements[ship.size].push(randomPos);
         }
     }
+    return board;
 };
