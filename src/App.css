@@ -16,5 +16,9 @@
 }
 
 .cell-free {
-  background-color: #add8e6;
+  background: #add8e6;
+}
+
+.cell-ship {
+  background: #000;
 }
