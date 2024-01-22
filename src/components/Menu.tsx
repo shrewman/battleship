@@ -1,5 +1,8 @@
 import Options from "./Options";
+import { useState } from "react";
 import { useMenuContext } from "../context/UseMenuContext";
+import { initEmptyBoard } from "../gameLogic";
+import { MenuCellState } from "../types";
 
 const Menu = () => {
     return (
@@ -13,8 +16,9 @@ const Menu = () => {
 export default Menu;
 
 const MenuBoard = () => {
-    const { boardSize, setBoardSize, shipCount, setShipCount } =
-        useMenuContext();
+    const { boardSize, shipCount } = useMenuContext();
+
+    const [board, setBoard] = useState(initEmptyBoard(boardSize));
 
     return (
         <>
@@ -26,10 +30,17 @@ const MenuBoard = () => {
                     </p>
                 ))}
             </p>
+            {board.map((column, columnIndex) => (
+                <div key={columnIndex} className="board-column">
+                    {column.map((cell, cellIndex) => (
+                        <MenuCell key={cellIndex} state={cell.state} />
+                    ))}
+                </div>
+            ))}
         </>
     );
 };
 
-const MenuCell = () => {
-    return <>Cell</>;
+const MenuCell: React.FC<{ state: MenuCellState }> = ({ state }) => {
+    return <div className={`cell cell-${state}`}></div>;
 };
