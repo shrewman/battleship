@@ -67,7 +67,8 @@ const placeShip = (board: Board, ship: Ship) => {
     }
 };
 
-export const placeShipsRandomly = (board: Board, ships: Ship[]) => {
+export const getRandomlyFilledBoard = (boardSize: number, ships: Ship[]) => {
+    const board = initEmptyBoard(boardSize)
     const invalidPlacements: ShipPositions = {
         5: [],
         4: [],
