@@ -1,5 +1,5 @@
-import { Board, MenuCell, Ship } from "../types";
-export default function isValidShipPlacement(board: Board, ship: Ship) {
+import { MenuBoardType, MenuCellType, Ship } from "../types";
+export default function isValidShipPlacement(board: MenuBoardType, ship: Ship) {
     const boardSize = Math.sqrt(board.length);
 
     const { size, position, orientation } = ship;
@@ -12,7 +12,7 @@ export default function isValidShipPlacement(board: Board, ship: Ship) {
         return false;
     }
 
-    const isInvalidCell = (cell: MenuCell) => cell && cell.state === "ship";
+    const isInvalidCell = (cell: MenuCellType) => cell && cell.state === "ship";
 
     if (orientation === "horizontal") {
         for (let i = x - 1; i <= x + ship.size; i++) {
