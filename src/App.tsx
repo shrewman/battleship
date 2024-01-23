@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu";
 import Game from "./components/Game";
-import { MenuContext } from "./context/MenuContext";
-import { Board, ShipCount } from "./types";
+import MenuContext from "./context/MenuContext";
+import { MenuBoardType, ShipCount } from "./types";
 import { generateRandomBoard } from "./utils/gameLogic";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         { size: 1, count: 4 },
     ]);
 
-    const [board, setBoard] = useState<Board>(
+    const [board, setBoard] = useState<MenuBoardType>(
         generateRandomBoard(boardSize, shipCount)
     );
 
@@ -33,12 +33,12 @@ function App() {
                     board,
                     setBoard,
                     isGameStarted,
-                    setIsGameStarted
+                    setIsGameStarted,
                 }}
             >
                 {!isGameStarted && <Menu />}
-                {isGameStarted && <Game />}
             </MenuContext.Provider>
+            {isGameStarted && <Game menuBoard={board} shipCount={shipCount} />}
         </>
     );
 }
