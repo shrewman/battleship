@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu";
 import Game from "./components/Game";
@@ -21,10 +21,6 @@ function App() {
         generateRandomBoard(boardSize, shipCount)
     );
 
-    const startGame = () => {
-        setIsGameStarted(true);
-    };
-
     return (
         <>
             <h1>Морський бій</h1>
@@ -36,6 +32,8 @@ function App() {
                     setShipCount,
                     board,
                     setBoard,
+                    isGameStarted,
+                    setIsGameStarted
                 }}
             >
                 {!isGameStarted && <Menu />}

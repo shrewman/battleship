@@ -8,6 +8,8 @@ type MenuContextType = {
   setShipCount: Dispatch<SetStateAction<ShipCount[]>>;
   board: Board;
   setBoard: Dispatch<SetStateAction<Board>>;
+  isGameStarted: boolean,
+  setIsGameStarted: Dispatch<SetStateAction<boolean>>;
 };
 
 export const MenuContext = createContext<MenuContextType | null>(null);
