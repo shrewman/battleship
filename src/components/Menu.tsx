@@ -1,7 +1,8 @@
 import Options from "./Options";
 import { useState, useMemo } from "react";
 import { useMenuContext } from "../context/UseMenuContext";
-import { getRandomlyFilledBoard } from "../gameLogic";
+import { generateRandomBoard } from "../utils/gameLogic";
+import { Board } from "../types";
 import { MenuCellState } from "../types";
 
 const Menu = () => {
@@ -18,17 +19,13 @@ export default Menu;
 const MenuBoard = () => {
     const { boardSize, shipCount } = useMenuContext();
 
-    const [board, setBoard] = useState(
-        getRandomlyFilledBoard(boardSize, shipCount)
+    const [board, setBoard] = useState<Board>(
+        generateRandomBoard(boardSize, shipCount)
     );
 
     const boardContainer = useMemo(() => {
-        return board.map((column, columnIndex) => (
-            <div key={columnIndex} className="board-row">
-                {column.map((cell, cellIndex) => (
-                    <MenuCell key={cellIndex} state={cell.state} />
-                ))}
-            </div>
+        return board.map((cell, cellIndex) => (
+            <MenuCell key={cellIndex} state={cell.state} />
         ));
     }, [board]);
 
@@ -42,7 +39,16 @@ const MenuBoard = () => {
                     </p>
                 ))}
             </p>
-            {boardContainer}
+            <div
+                className="board"
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
+                    gridTemplateRows: `repeat(${boardSize}, 1fr)`,
+                }}
+            >
+                {boardContainer}
+            </div>
         </>
     );
 };
