@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
     MenuBoardType,
     GameBoardType,
     GameCellType,
     ShipCount,
     GameCellState,
+    Player,
 } from "../types";
 import GameContext from "../context/GameContext";
 import { useGameContext } from "../context/UseGameContext";
@@ -31,13 +32,18 @@ const Game: React.FC<GameProps> = ({ menuBoard, shipCount }) => {
     const [board, setBoard] = useState<GameBoardType>(
         convertToGameBoard(menuBoard)
     );
+    const [turn, setTurn] = useState<Player>(Math.random() < 0.5 ? "P1" : "P2");
 
     return (
         <GameContext.Provider
             value={{ gameShipCount, setGameShipCount, board, setBoard }}
         >
             <div className="game">
-                <GameBoard />
+                <div>{turn}</div>
+                <div className="game-boards">
+                    <GameBoard />
+                    <GameBoard />
+                </div>
             </div>
         </GameContext.Provider>
     );
@@ -46,10 +52,6 @@ const Game: React.FC<GameProps> = ({ menuBoard, shipCount }) => {
 const GameBoard = () => {
     const { board, setBoard } = useGameContext();
     const boardSize = Math.sqrt(board.length);
-
-    useEffect(() => {
-        setBoard([...board]);
-    }, [board]);
 
     return (
         <>
@@ -74,6 +76,7 @@ type GameCellProps = {
 };
 
 const GameCell: React.FC<GameCellProps> = ({ state }) => {
+
     return <div className={`cell cell-${state}`}></div>;
 };
 
