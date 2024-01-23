@@ -2,13 +2,13 @@ import { useState } from "react";
 import {
     MenuBoardType,
     GameBoardType,
-    GameCellType,
     ShipCount,
     GameCellState,
     Player,
 } from "../types";
 import GameContext from "../context/GameContext";
 import { useGameContext } from "../context/UseGameContext";
+import convertToGameBoard from "../utils/convertToGameBoard";
 
 interface GameProps {
     menuBoard: MenuBoardType;
@@ -16,18 +16,6 @@ interface GameProps {
 }
 
 const Game: React.FC<GameProps> = ({ menuBoard, shipCount }) => {
-    const convertToGameBoard = (board: MenuBoardType) => {
-        return board.map((menuCell) => {
-            const { position, state } = menuCell;
-            const gameCell: GameCellType = {
-                position,
-                belongsTo: "P1",
-                state,
-            };
-            return gameCell;
-        });
-    };
-
     const [gameShipCount, setGameShipCount] = useState<ShipCount[]>(shipCount);
     const [board, setBoard] = useState<GameBoardType>(
         convertToGameBoard(menuBoard)
@@ -76,7 +64,6 @@ type GameCellProps = {
 };
 
 const GameCell: React.FC<GameCellProps> = ({ state }) => {
-
     return <div className={`cell cell-${state}`}></div>;
 };
 
