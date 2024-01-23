@@ -3,7 +3,7 @@ import "./App.css";
 import Menu from "./components/Menu";
 import Game from "./components/Game";
 import { MenuContext } from "./context/MenuContext";
-import { ShipCount, Ship } from "./types";
+import { ShipCount } from "./types";
 
 function App() {
     const [isStarted, setIsStarted] = useState(false);
@@ -11,10 +11,10 @@ function App() {
     const [boardSize, setBoardSize] = useState(10);
     const [shipCount, setShipCount] = useState<ShipCount[]>([
         { size: 5, count: 0 },
-        { size: 4, count: 0 },
-        { size: 3, count: 0 },
-        { size: 2, count: 0 },
-        { size: 1, count: 0 },
+        { size: 4, count: 1 },
+        { size: 3, count: 2 },
+        { size: 2, count: 3 },
+        { size: 1, count: 4 },
     ]);
 
     useEffect(() => {
