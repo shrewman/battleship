@@ -55,3 +55,10 @@
 .game-variations > * {
     background-color: #27272a;
 }
+
+.game-boards {
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    gap: 70px;
+}
