@@ -11,16 +11,29 @@ export type Ship = {
     orientation: Orientation;
 };
 
-export type MenuCellState = "free" | "ship";
-
-export type MenuCell = {
-    position: Position;
-    state: MenuCellState
-};
-
-type ShipCount = {
+export type ShipCount = {
     size: number;
     count: number;
-}
+};
 
-type Board = MenuCell[];
+export type Player = "P1" | "P2";
+
+export type MenuCellState = "free" | "ship";
+
+export type MenuCellType = {
+    position: Position;
+    state: MenuCellState;
+};
+
+export type MenuBoardType = MenuCellType[];
+
+
+export type GameCellState = "free" | "ship" | "miss" | "hit" | "destroyed" | "unknown";
+
+export type GameCellType = {
+    position: Position;
+    belongsTo: Player;
+    state: MenuCellState;
+};
+
+type GameBoardType = GameCellType[];
