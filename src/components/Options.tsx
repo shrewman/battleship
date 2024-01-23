@@ -13,8 +13,14 @@ type MaxShipsConfigurations = {
 
 // TOOD: REFACTOR
 const Options = () => {
-    const { boardSize, setBoardSize, shipCount, setShipCount, setBoard, setIsGameStarted } =
-        useMenuContext();
+    const {
+        boardSize,
+        setBoardSize,
+        shipCount,
+        setShipCount,
+        setBoard,
+        setIsGameStarted,
+    } = useMenuContext();
 
     const maxShipsConfigurations: MaxShipsConfigurations = {
         8: [
@@ -61,10 +67,6 @@ const Options = () => {
         setBoard(generateRandomBoard(boardSize, shipCount));
     };
 
-    const shuffleBoard = () => {
-        setBoard(generateRandomBoard(boardSize, shipCount));
-    };
-
     const handleClassicGame = () => {
         setBoardSize(10);
         const classicGameVariation: ShipCount[] = [
@@ -91,84 +93,74 @@ const Options = () => {
         setBoard(generateRandomBoard(boardSize, hasbroGameVariation));
     };
 
-    const handleStartGame = () => {
-        setIsGameStarted(true)
-    }
-
     return (
-        <div className="options">
-            <div className="selectors">
-                <div className="menu-buttons game-variations">
-                    <button onClick={handleClassicGame}>Класична</button>
-                    <button onClick={handleHasbroGame}>Hasbro</button>
-                </div>
-                <div className="ship-count-selector">
-                    <label>Розмір поля:</label>
-                    <select
-                        value={boardSize}
-                        onChange={(e) => {
-                            handleBoardSizeChange(e);
-                        }}
-                    >
-                        <option value={8}>8x8</option>
-                        <option value={10}>10x10</option>
-                        <option value={12}>12x12</option>
-                    </select>
-                </div>
-                {boardSize >= 10 && (
-                    <ShipCountSelector
-                        label="5-палубні кораблі: "
-                        value={
-                            shipCount.find((shipCount) => shipCount.size === 5)
-                                ?.count || 0
-                        }
-                        optionValues={[0, 1]}
-                        onChange={(e) => handleShipCountChange(e, 5)}
-                    />
-                )}
-                {boardSize >= 10 && (
-                    <ShipCountSelector
-                        label="4-палубні кораблі: "
-                        value={
-                            shipCount.find((shipCount) => shipCount.size === 4)
-                                ?.count || 0
-                        }
-                        optionValues={[0, 1, 2]}
-                        onChange={(e) => handleShipCountChange(e, 4)}
-                    />
-                )}
+        <div className="selectors">
+            <div className="menu-buttons game-variations">
+                <button onClick={handleClassicGame}>Класична</button>
+                <button onClick={handleHasbroGame}>Hasbro</button>
+            </div>
+            <div className="ship-count-selector">
+                <label>Розмір поля:</label>
+                <select
+                    value={boardSize}
+                    onChange={(e) => {
+                        handleBoardSizeChange(e);
+                    }}
+                >
+                    <option value={8}>8x8</option>
+                    <option value={10}>10x10</option>
+                    <option value={12}>12x12</option>
+                </select>
+            </div>
+            {boardSize >= 10 && (
                 <ShipCountSelector
-                    label="3-палубні кораблі: "
+                    label="5-палубні кораблі: "
                     value={
-                        shipCount.find((shipCount) => shipCount.size === 3)
+                        shipCount.find((shipCount) => shipCount.size === 5)
+                            ?.count || 0
+                    }
+                    optionValues={[0, 1]}
+                    onChange={(e) => handleShipCountChange(e, 5)}
+                />
+            )}
+            {boardSize >= 10 && (
+                <ShipCountSelector
+                    label="4-палубні кораблі: "
+                    value={
+                        shipCount.find((shipCount) => shipCount.size === 4)
                             ?.count || 0
                     }
                     optionValues={[0, 1, 2]}
-                    onChange={(e) => handleShipCountChange(e, 3)}
+                    onChange={(e) => handleShipCountChange(e, 4)}
                 />
-                <ShipCountSelector
-                    label="2-палубні кораблі: "
-                    value={
-                        shipCount.find((shipCount) => shipCount.size === 2)
-                            ?.count || 0
-                    }
-                    optionValues={[0, 1, 2, 3]}
-                    onChange={(e) => handleShipCountChange(e, 2)}
-                />
-                <ShipCountSelector
-                    label="1-палубні кораблі: "
-                    value={
-                        shipCount.find((shipCount) => shipCount.size === 1)
-                            ?.count || 0
-                    }
-                    optionValues={[0, 1, 2, 3, 4]}
-                    onChange={(e) => handleShipCountChange(e, 1)}
-                />
-                <div className="menu-buttons">
-                    <button onClick={shuffleBoard}>⟳</button>
-                    <button onClick={handleStartGame}>Старт</button>
-                </div>
-            </div>
+            )}
+            <ShipCountSelector
+                label="3-палубні кораблі: "
+                value={
+                    shipCount.find((shipCount) => shipCount.size === 3)
+                        ?.count || 0
+                }
+                optionValues={[0, 1, 2]}
+                onChange={(e) => handleShipCountChange(e, 3)}
+            />
+            <ShipCountSelector
+                label="2-палубні кораблі: "
+                value={
+                    shipCount.find((shipCount) => shipCount.size === 2)
+                        ?.count || 0
+                }
+                optionValues={[0, 1, 2, 3]}
+                onChange={(e) => handleShipCountChange(e, 2)}
+            />
+            <ShipCountSelector
+                label="1-палубні кораблі: "
+                value={
+                    shipCount.find((shipCount) => shipCount.size === 1)
+                        ?.count || 0
+                }
+                optionValues={[0, 1, 2, 3, 4]}
+                onChange={(e) => handleShipCountChange(e, 1)}
+            />
         </div>
     );
 };
