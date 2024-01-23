@@ -6,10 +6,10 @@ import { generateRandomBoard } from "../utils/gameLogic";
 
 const Menu = () => {
     return (
-        <>
+        <div className="menu">
             <MenuBoard />
             <Options />
-        </>
+        </div>
     );
 };
 
@@ -30,14 +30,6 @@ const MenuBoard = () => {
 
     return (
         <>
-            <p>{boardSize}</p>
-            <p>
-                {shipCount.map((ships) => (
-                    <p key={ships.size}>
-                        Size: {ships.size}, Count: {ships.count}
-                    </p>
-                ))}
-            </p>
             <div
                 className="board"
                 style={{

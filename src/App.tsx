@@ -25,10 +25,6 @@ function App() {
         setIsGameStarted(true);
     };
 
-    const shuffleBoard = () => {
-        setBoard(generateRandomBoard(boardSize, shipCount));
-    }
-
     return (
         <>
             <h1>Морський бій</h1>
@@ -45,10 +41,6 @@ function App() {
                 {!isGameStarted && <Menu />}
                 {isGameStarted && <Game />}
             </MenuContext.Provider>
-            <div>
-                <button onClick={shuffleBoard}>Shuffle</button>
-                <button onClick={startGame}>Start</button>
-            </div>
         </>
     );
 }

@@ -4,7 +4,12 @@
   font-weight: 400;
 
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #1e293b;
+}
+
+h2 {
+  margin: 0;
+  font-size: 15px;
 }
 
 body {
@@ -19,15 +24,21 @@ button {
   color: rgba(255, 255, 255, 0.87);
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.3em 0.8em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #020617;
   cursor: pointer;
   transition: border-color 0.25s;
+  min-width: 90px;
 }
 
 button:hover {
   border-color: #646cff;
+}
+
+select {
+    min-width: 60px;
+    text-align: center;
 }

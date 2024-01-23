@@ -1,24 +1,57 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.board-row {
-  display: flex;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
 }
 
 .cell {
-  width: 30px;
-  height: 30px;
-  border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
 }
 
 .cell-free {
-  background: #add8e6;
+    background: #60a5fa;
+}
+
+.cell-free:hover {
+    background: #74b2ff;
 }
 
 .cell-ship {
-  background: #000;
+    background: #1d4ed8;
+    border-color: #002daa;
+}
+
+.menu {
+    background: #334155;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    gap: 2rem;
+}
+
+.options {
+    background: #4b5563;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.ship-count-selector {
+    margin: 5px 0px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.menu-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.game-variations > * {
+    background-color: #27272a;
 }
