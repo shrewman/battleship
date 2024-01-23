@@ -19,7 +19,6 @@ const Options = () => {
         shipCount,
         setShipCount,
         setBoard,
-        setIsGameStarted,
     } = useMenuContext();
 
     const maxShipsConfigurations: MaxShipsConfigurations = {
