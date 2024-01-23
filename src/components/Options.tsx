@@ -13,7 +13,7 @@ type MaxShipsConfigurations = {
 
 // TOOD: REFACTOR
 const Options = () => {
-    const { boardSize, setBoardSize, shipCount, setShipCount, setBoard } =
+    const { boardSize, setBoardSize, shipCount, setShipCount, setBoard, setIsGameStarted } =
         useMenuContext();
 
     const maxShipsConfigurations: MaxShipsConfigurations = {
@@ -91,11 +91,15 @@ const Options = () => {
         setBoard(generateRandomBoard(boardSize, hasbroGameVariation));
     };
 
+    const handleStartGame = () => {
+        setIsGameStarted(true)
+    }
+
     return (
         <div className="options">
             <div className="selectors">
                 <div className="menu-buttons game-variations">
-                    <button onClick={handleClassicGame}>Classic</button>
+                    <button onClick={handleClassicGame}>Класична</button>
                     <button onClick={handleHasbroGame}>Hasbro</button>
                 </div>
                 <div className="ship-count-selector">
@@ -161,8 +165,8 @@ const Options = () => {
                     onChange={(e) => handleShipCountChange(e, 1)}
                 />
                 <div className="menu-buttons">
-                    <button onClick={shuffleBoard}>Shuffle</button>
-                    <button>Start</button>
+                    <button onClick={shuffleBoard}>⟳</button>
+                    <button onClick={handleStartGame}>Старт</button>
                 </div>
             </div>
         </div>
