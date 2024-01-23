@@ -2,13 +2,48 @@ import React from "react";
 import ShipCountSelector from "./ShipCountSelector";
 import { ShipCount } from "../types";
 import { useMenuContext } from "../context/UseMenuContext";
+import { generateRandomBoard } from "../utils/gameLogic";
 
+type MaxShipsConfigurations = {
+    [boardSize: number]: {
+        size: number;
+        count: number;
+    }[];
+};
+
+// TOOD: REFACTOR
 const Options = () => {
-    const { boardSize, setBoardSize, shipCount, setShipCount } =
+    const { boardSize, setBoardSize, shipCount, setShipCount, setBoard } =
         useMenuContext();
 
+    const maxShipsConfigurations: MaxShipsConfigurations = {
+        8: [
+            { size: 5, count: 0 },
+            { size: 4, count: 0 },
+            { size: 3, count: 1 },
+            { size: 2, count: 3 },
+            { size: 1, count: 4 },
+        ],
+        10: [
+            { size: 5, count: 1 },
+            { size: 4, count: 1 },
+            { size: 3, count: 2 },
+            { size: 2, count: 3 },
+            { size: 1, count: 4 },
+        ],
+        12: [
+            { size: 5, count: 0 },
+            { size: 4, count: 1 },
+            { size: 3, count: 2 },
+            { size: 2, count: 3 },
+            { size: 1, count: 4 },
+        ],
+    };
+
     const handleBoardSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setBoardSize(parseInt(e.target.value));
+        const newBoardSize = parseInt(e.target.value);
+        setShipCount(maxShipsConfigurations[newBoardSize]);
+        setBoardSize(newBoardSize);
     };
 
     const handleShipCountChange = (
@@ -23,6 +58,7 @@ const Options = () => {
             return ships;
         });
         setShipCount(updatedShips);
+        setBoard(generateRandomBoard(boardSize, shipCount));
     };
 
     return (
@@ -45,32 +81,47 @@ const Options = () => {
             {boardSize >= 10 && (
                 <ShipCountSelector
                     label="5-палубні кораблі: "
-                    value={shipCount.find((shipCount) => shipCount.size === 5)?.count || 0}
+                    value={
+                        shipCount.find((shipCount) => shipCount.size === 5)
+                            ?.count || 0
+                    }
                     optionValues={[0, 1]}
                     onChange={(e) => handleShipCountChange(e, 5)}
                 />
             )}
             <ShipCountSelector
                 label="4-палубні кораблі: "
-                value={shipCount.find((shipCount) => shipCount.size === 4)?.count || 0}
+                value={
+                    shipCount.find((shipCount) => shipCount.size === 4)
+                        ?.count || 0
+                }
                 optionValues={[0, 1, 2]}
                 onChange={(e) => handleShipCountChange(e, 4)}
             />
             <ShipCountSelector
                 label="3-палубні кораблі: "
-                value={shipCount.find((shipCount) => shipCount.size === 3)?.count || 0}
+                value={
+                    shipCount.find((shipCount) => shipCount.size === 3)
+                        ?.count || 0
+                }
                 optionValues={[0, 1, 2]}
                 onChange={(e) => handleShipCountChange(e, 3)}
             />
             <ShipCountSelector
                 label="2-палубні кораблі: "
-                value={shipCount.find((shipCount) => shipCount.size === 2)?.count || 0}
+                value={
+                    shipCount.find((shipCount) => shipCount.size === 2)
+                        ?.count || 0
+                }
                 optionValues={[0, 1, 2, 3]}
                 onChange={(e) => handleShipCountChange(e, 2)}
             />
             <ShipCountSelector
                 label="1-палубні кораблі: "
-                value={shipCount.find((shipCount) => shipCount.size === 1)?.count || 0}
+                value={
+                    shipCount.find((shipCount) => shipCount.size === 1)
+                        ?.count || 0
+                }
                 optionValues={[0, 1, 2, 3, 4]}
                 onChange={(e) => handleShipCountChange(e, 1)}
             />
