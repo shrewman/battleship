@@ -3,11 +3,11 @@ import "./App.css";
 import Menu from "./components/Menu";
 import Game from "./components/Game";
 import { MenuContext } from "./context/MenuContext";
-import { ShipCount } from "./types";
+import { Board, ShipCount } from "./types";
+import { generateRandomBoard } from "./utils/gameLogic";
 
 function App() {
-    const [isStarted, setIsStarted] = useState(false);
-
+    const [isGameStarted, setIsGameStarted] = useState(false);
     const [boardSize, setBoardSize] = useState(10);
     const [shipCount, setShipCount] = useState<ShipCount[]>([
         { size: 5, count: 0 },
@@ -17,29 +17,36 @@ function App() {
         { size: 1, count: 4 },
     ]);
 
-    useEffect(() => {
-        if (boardSize < 10) {
-            setShipCount((prevShipCount) => 
-                prevShipCount.map((ship) =>
-                    ship.size === 5 ? { ...ship, count: 0 } : ship
-                ));
-        }
-    }, [boardSize]);
+    const [board, setBoard] = useState<Board>(
+        generateRandomBoard(boardSize, shipCount)
+    );
 
     const startGame = () => {
-        setIsStarted(true);
+        setIsGameStarted(true);
     };
+
+    const shuffleBoard = () => {
+        setBoard(generateRandomBoard(boardSize, shipCount));
+    }
 
     return (
         <>
             <h1>Морський бій</h1>
             <MenuContext.Provider
-                value={{ boardSize, setBoardSize, shipCount, setShipCount }}
+                value={{
+                    boardSize,
+                    setBoardSize,
+                    shipCount,
+                    setShipCount,
+                    board,
+                    setBoard,
+                }}
             >
-                {!isStarted && <Menu />}
-                {isStarted && <Game />}
+                {!isGameStarted && <Menu />}
+                {isGameStarted && <Game />}
             </MenuContext.Provider>
             <div>
+                <button onClick={shuffleBoard}>Shuffle</button>
                 <button onClick={startGame}>Start</button>
             </div>
         </>
