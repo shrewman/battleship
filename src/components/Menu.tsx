@@ -3,12 +3,35 @@ import { useMemo, useEffect } from "react";
 import { useMenuContext } from "../context/UseMenuContext";
 import { MenuCellState } from "../types";
 import { generateRandomBoard } from "../utils/gameLogic";
+import { socket } from "../socket";
 
 const Menu = () => {
+    const { boardSize, shipCount, setBoard, setIsGameStarted } =
+        useMenuContext();
+
+    function connect() {
+        socket.connect();
+    }
+
+    const shuffleBoard = () => {
+        setBoard(generateRandomBoard(boardSize, shipCount));
+    };
+
+    const handleStartGame = () => {
+        connect();
+        setIsGameStarted(true);
+    };
+
     return (
         <div className="menu">
             <MenuBoard />
-            <Options />
+            <div className="options">
+                <Options />
+                <div className="menu-buttons">
+                    <button onClick={shuffleBoard}>⟳</button>
+                    <button onClick={handleStartGame}>Старт</button>
+                </div>
+            </div>
         </div>
     );
 };
