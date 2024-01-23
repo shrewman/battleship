@@ -1,9 +1,8 @@
 import Options from "./Options";
-import { useState, useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useMenuContext } from "../context/UseMenuContext";
-import { generateRandomBoard } from "../utils/gameLogic";
-import { Board } from "../types";
 import { MenuCellState } from "../types";
+import { generateRandomBoard } from "../utils/gameLogic";
 
 const Menu = () => {
     return (
@@ -17,17 +16,17 @@ const Menu = () => {
 export default Menu;
 
 const MenuBoard = () => {
-    const { boardSize, shipCount } = useMenuContext();
-
-    const [board, setBoard] = useState<Board>(
-        generateRandomBoard(boardSize, shipCount)
-    );
+    const { boardSize, board, setBoard, shipCount } = useMenuContext();
 
     const boardContainer = useMemo(() => {
         return board.map((cell, cellIndex) => (
             <MenuCell key={cellIndex} state={cell.state} />
         ));
     }, [board]);
+
+    useEffect(() => {
+        setBoard(generateRandomBoard(boardSize, shipCount));
+    }, [boardSize]);
 
     return (
         <>
