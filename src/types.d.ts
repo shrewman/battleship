@@ -23,4 +23,4 @@ type ShipCount = {
     count: number;
 }
 
-type Board = MenuCell[][];
+type Board = MenuCell[];
