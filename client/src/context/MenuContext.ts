@@ -8,8 +8,8 @@ type MenuContextType = {
   setShipCount: Dispatch<SetStateAction<ShipCount[]>>;
   board: MenuBoardType;
   setBoard: Dispatch<SetStateAction<MenuBoardType>>;
-  opponentBoard: GameBoardType | null;
-  setOpponentBoard: Dispatch<SetStateAction<GameBoardType | null>>;
+  opponentBoard: GameBoardType;
+  setOpponentBoard: Dispatch<SetStateAction<GameBoardType>>;
   isGameStarted: boolean,
   setIsGameStarted: Dispatch<SetStateAction<boolean>>;
   turn: Player,

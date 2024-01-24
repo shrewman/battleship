@@ -87,8 +87,41 @@ io.on("connection", (socket) => {
         const boardP1 = convertToGameBoard(game.p1.board);
         const boardP2 = convertToGameBoard(game.p2.board);
         const turn = Math.random() < 0.5 ? "P1" : "P2";
+        game.turn = turn;
         io.to(P1).emit("start_game", boardP2, turn === "P1" ? "P1" : "P2");
         io.to(P2).emit("start_game", boardP1, turn === "P2" ? "P1" : "P2");
+    });
+
+    socket.on("fire", (room, position) => {
+        const game = games.find((game) => game.room === room);
+
+        const player = game.turn;
+        const targetPlayer = player === "P1" ? "P2" : "P1";
+        const targetBoard = player === "P1" ? game.p2.board : game.p1.board;
+        const targetCell = targetBoard.find((cell) =>
+            _.isEqual(cell.position, position)
+        );
+
+        if (!targetCell) {
+            socket.emit("error", new Error("Invalid position."));
+            return;
+        }
+
+        let state;
+
+        if (targetCell.state === "free") state = "free";
+        else if (targetCell.state === "ship") state = "hit";
+
+        const response = {
+            position,
+            state,
+            belongsTo: targetPlayer,
+        };
+
+        console.log(
+            `${player} fired ${targetCell.position} it is ${targetCell.state}`
+        );
+        io.to(room).emit("fire_result", response);
     });
 
     socket.on("disconnect", () => {

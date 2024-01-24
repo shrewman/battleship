@@ -6,6 +6,7 @@ import MenuContext from "./context/MenuContext";
 import { GameBoardType, MenuBoardType, Player, ShipCount } from "./types";
 import { generateRandomBoard } from "./utils/gameLogic";
 import { socket } from "./socket";
+import RoomContext from "./context/RoomContext";
 
 function App() {
     const [isGameStarted, setIsGameStarted] = useState(false);
@@ -22,10 +23,9 @@ function App() {
         generateRandomBoard(boardSize, shipCount)
     );
 
-    const [opponentBoard, setOpponentBoard] = useState<GameBoardType | null>(
-        null
-    );
-    const [turn, setTurn] = useState<Player>("P1")
+    const [room, setRoom] = useState<number | null>(null);
+    const [opponentBoard, setOpponentBoard] = useState<GameBoardType>([]);
+    const [turn, setTurn] = useState<Player>("P1");
 
     useEffect(() => {
         socket.on("start_game", (board: GameBoardType, turn: Player) => {
@@ -38,25 +38,28 @@ function App() {
     return (
         <>
             <h1 className="font-bold text-2xl mb-5">Морський бій</h1>
-            <MenuContext.Provider
-                value={{
-                    boardSize,
-                    setBoardSize,
-                    shipCount,
-                    setShipCount,
-                    board,
-                    setBoard,
-                    isGameStarted,
-                    setIsGameStarted,
-                    opponentBoard,
-                    setOpponentBoard,
-                    turn,
-                    setTurn
-                }}
-            >
-                {!isGameStarted && <Menu />}
-                {isGameStarted && <Game menuBoard={board} />}
-            </MenuContext.Provider>
+
+            <RoomContext.Provider value={{ room, setRoom }}>
+                <MenuContext.Provider
+                    value={{
+                        boardSize,
+                        setBoardSize,
+                        shipCount,
+                        setShipCount,
+                        board,
+                        setBoard,
+                        opponentBoard,
+                        setOpponentBoard,
+                        isGameStarted,
+                        setIsGameStarted,
+                        turn,
+                        setTurn,
+                    }}
+                >
+                    {!isGameStarted && <Menu />}
+                    {isGameStarted && <Game menuBoard={board} />}
+                </MenuContext.Provider>
+            </RoomContext.Provider>
         </>
     );
 }

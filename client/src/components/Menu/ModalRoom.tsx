@@ -1,4 +1,4 @@
-import { useModalContext } from "../../context/UseModalContext";
+import { useRoomContext } from "../../context/UseRoomContext";
 type ModalRoomProps = {
     onClose: () => void;
     handleCreateRoom: () => void;
@@ -9,7 +9,7 @@ const ModalRoom: React.FC<ModalRoomProps> = ({
     handleCreateRoom,
     handleJoinRoom,
 }) => {
-    const { roomCode, setRoomCode } = useModalContext();
+    const { room, setRoom } = useRoomContext();
 
     return (
         <div className="modal">
@@ -29,10 +29,10 @@ const ModalRoom: React.FC<ModalRoomProps> = ({
                         onChange={(e) => {
                             const inputValue = e.target.value;
                             if (inputValue.length < 7) {
-                                setRoomCode(parseInt(inputValue));
+                                setRoom(parseInt(inputValue));
                             }
                         }}
-                        value={roomCode ?? ""}
+                        value={room ?? ""}
                         className="w-2/3 text-center text-black"
                         id="input-room"
                         type="text"

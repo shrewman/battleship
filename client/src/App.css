@@ -27,6 +27,10 @@
     background: #1d4ed8;
 }
 
+.cell-hit {
+    background-color: red;
+}
+
 .menu {
     background: #334155;
     padding: 20px;

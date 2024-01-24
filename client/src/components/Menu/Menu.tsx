@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import { useMenuContext } from "../../context/UseMenuContext";
 import { generateRandomBoard } from "../../utils/gameLogic";
 import { socket } from "../../socket";
-import ModalContext from "../../context/ModalContext";
 import WaitingOpponent from "./WaitingOpponent";
 import MenuBoard from "./MenuBoard";
 import ModalRoom from "./ModalRoom";
+import { useRoomContext } from "../../context/UseRoomContext";
 
 const Menu = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [roomCode, setRoomCode] = useState<number | null>(null);
     const [isRoomCreated, setIsRoomCreated] = useState(false);
+    const { room, setRoom } = useRoomContext();
     const { boardSize, shipCount, board, setBoard } = useMenuContext();
 
     const shuffleBoard = () => {
@@ -35,13 +35,13 @@ const Menu = () => {
 
     const handleJoinRoom = () => {
         socket.connect();
-        socket.emit("join_room", roomCode, board, shipCount);
+        socket.emit("join_room", room, board, shipCount);
         closeModal();
     };
 
     const exitRoom = () => {
         setIsRoomCreated(false);
-        setRoomCode(null);
+        setRoom(null);
     };
 
     useEffect(() => {
@@ -51,7 +51,6 @@ const Menu = () => {
     }, []);
 
     return (
-        <ModalContext.Provider value={{ roomCode, setRoomCode }}>
             <div className="menu">
                 {isRoomCreated ? (
                     <WaitingOpponent exitRoom={exitRoom} />
@@ -77,7 +76,6 @@ const Menu = () => {
                     />
                 )}
             </div>
-        </ModalContext.Provider>
     );
 };
 
