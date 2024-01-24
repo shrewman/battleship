@@ -47,8 +47,10 @@ const Options = () => {
 
     const handleBoardSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newBoardSize = parseInt(e.target.value);
-        setShipCount(maxShipsConfigurations[newBoardSize]);
+        const newShipCount = maxShipsConfigurations[newBoardSize];
+        setShipCount(newShipCount);
         setBoardSize(newBoardSize);
+        setBoard(generateRandomBoard(newBoardSize, newShipCount));
     };
 
     const handleShipCountChange = (
@@ -100,7 +102,8 @@ const Options = () => {
             </div>
             <div className="ship-count-selector">
                 <label>Розмір поля:</label>
-                <select
+                <select 
+                className="pr-1 text-black"
                     value={boardSize}
                     onChange={(e) => {
                         handleBoardSizeChange(e);
