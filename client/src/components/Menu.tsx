@@ -1,11 +1,12 @@
 import Options from "./Options";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useMenuContext } from "../context/UseMenuContext";
 import { MenuCellState } from "../types";
 import { generateRandomBoard } from "../utils/gameLogic";
 import { socket } from "../socket";
 
 const Menu = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { boardSize, shipCount, board, setBoard, setIsGameStarted } =
         useMenuContext();
 
@@ -17,10 +18,14 @@ const Menu = () => {
         setBoard(generateRandomBoard(boardSize, shipCount));
     };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     const handleStartGame = () => {
         connect();
-        setIsGameStarted(true);
-        socket.emit("send_board", board);
+        socket.emit("join_game", board, shipCount);
+        setIsModalOpen(true);
     };
 
     return (
@@ -30,7 +35,32 @@ const Menu = () => {
                 <Options />
                 <div className="menu-buttons">
                     <button onClick={shuffleBoard}>⟳</button>
-                    <button onClick={handleStartGame}>Старт</button>
+                    <button onClick={handleStartGame}>В бій!</button>
+                </div>
+            </div>
+            {isModalOpen && <Modal onClose={closeModal} />}
+        </div>
+    );
+};
+
+type ModalProps = {
+    onClose: () => void;
+};
+const Modal: React.FC<ModalProps> = ({ onClose }) => {
+    return (
+        <div className="modal">
+            <div className="modal-content">
+                <span className="close" onClick={onClose}>
+                    &times;
+                </span>
+                <div className="flex">
+                    <button>Start</button>
+                    <p className="underline">Join the room</p>
+                    <input
+                        id="input-room"
+                        type="text"
+                        placeholder="Room code"
+                    />
                 </div>
             </div>
         </div>
