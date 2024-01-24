@@ -33,7 +33,16 @@
     padding: 20px;
     border-radius: 20px;
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
+}
+
+@media (max-width: 750px) {
+    h1 {
+        display: none;
+    }
+    .menu {
+        flex-direction: column;
+    }
 }
 
 .options {
@@ -85,7 +94,7 @@
     border: 3px solid #1e293b;
     border-radius: 10px;
     width: 80%;
-    max-width: 400px; 
+    max-width: 400px;
     display: flex;
     justify-content: center;
 }
