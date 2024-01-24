@@ -6,7 +6,7 @@ import { generateRandomBoard } from "../utils/gameLogic";
 import { socket } from "../socket";
 
 const Menu = () => {
-    const { boardSize, shipCount, setBoard, setIsGameStarted } =
+    const { boardSize, shipCount, board, setBoard, setIsGameStarted } =
         useMenuContext();
 
     function connect() {
@@ -20,6 +20,7 @@ const Menu = () => {
     const handleStartGame = () => {
         connect();
         setIsGameStarted(true);
+        socket.emit("send_board", board);
     };
 
     return (
