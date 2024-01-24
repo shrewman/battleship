@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import Menu from "./components/Menu";
+import Menu from "./components/Menu/Menu";
 import MenuContext from "./context/MenuContext";
 import { MenuBoardType, ShipCount } from "./types";
 import { generateRandomBoard } from "./utils/gameLogic";
