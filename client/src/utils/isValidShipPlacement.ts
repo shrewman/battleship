@@ -15,14 +15,14 @@ export default function isValidShipPlacement(board: MenuBoardType, ship: Ship) {
     const isInvalidCell = (cell: MenuCellType) => cell && cell.state === "ship";
 
     if (orientation === "horizontal") {
-        for (let i = x - 1; i <= x + ship.size; i++) {
-            for (let j = y - 1; j <= y + 1; j++) {
+        for (let i = y - 1; i <= y + ship.size; i++) {
+            for (let j = x - 1; j <= x + 1; j++) {
                 if(isInvalidCell(board[i * boardSize + j])) return false;
             }
         }
     } else {
-        for (let i = x - 1; i <= x + 1; i++) {
-            for (let j = y - 1; j <= y + ship.size; j++) {
+        for (let i = y - 1; i <= y + 1; i++) {
+            for (let j = x - 1; j <= x + ship.size; j++) {
                 if(isInvalidCell(board[i * boardSize + j])) return false;
             }
         }
