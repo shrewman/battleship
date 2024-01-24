@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu/Menu";
+import Game from "./components/Game";
 import MenuContext from "./context/MenuContext";
-import { MenuBoardType, ShipCount } from "./types";
+import { GameBoardType, MenuBoardType, ShipCount } from "./types";
 import { generateRandomBoard } from "./utils/gameLogic";
+import { socket } from "./socket";
 
 function App() {
     const [isGameStarted, setIsGameStarted] = useState(false);
@@ -20,6 +22,18 @@ function App() {
         generateRandomBoard(boardSize, shipCount)
     );
 
+    const [opponentBoard, setOpponentBoard] = useState<GameBoardType | null>(
+        null
+    );
+
+    useEffect(() => {
+        socket.on("start_game", (board) => {
+            setIsGameStarted(true);
+            setOpponentBoard(board);
+        })
+    }, [])
+
+
     return (
         <>
             <h1 className="font-bold text-2xl mb-5">Морський бій</h1>
@@ -33,11 +47,15 @@ function App() {
                     setBoard,
                     isGameStarted,
                     setIsGameStarted,
+                    opponentBoard,
+                    setOpponentBoard
                 }}
             >
                 {!isGameStarted && <Menu />}
+                {isGameStarted && (
+                    <Game menuBoard={board} shipCount={shipCount} />
+                )}
             </MenuContext.Provider>
-            {/* {isGameStarted && <Game menuBoard={board} shipCount={shipCount} />} */}
         </>
     );
 }
