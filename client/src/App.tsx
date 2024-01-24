@@ -3,7 +3,7 @@ import "./App.css";
 import Menu from "./components/Menu/Menu";
 import Game from "./components/Game";
 import MenuContext from "./context/MenuContext";
-import { GameBoardType, MenuBoardType, ShipCount } from "./types";
+import { GameBoardType, MenuBoardType, Player, ShipCount } from "./types";
 import { generateRandomBoard } from "./utils/gameLogic";
 import { socket } from "./socket";
 
@@ -25,11 +25,13 @@ function App() {
     const [opponentBoard, setOpponentBoard] = useState<GameBoardType | null>(
         null
     );
+    const [turn, setTurn] = useState<Player>("P1")
 
     useEffect(() => {
-        socket.on("start_game", (board) => {
+        socket.on("start_game", (board: GameBoardType, turn: Player) => {
             setIsGameStarted(true);
             setOpponentBoard(board);
+            setTurn(turn);
         });
     }, []);
 
@@ -48,6 +50,8 @@ function App() {
                     setIsGameStarted,
                     opponentBoard,
                     setOpponentBoard,
+                    turn,
+                    setTurn
                 }}
             >
                 {!isGameStarted && <Menu />}

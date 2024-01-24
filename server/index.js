@@ -27,6 +27,18 @@ function generateRandomRoom() {
     return Math.floor(100000 + Math.random() * 900000);
 }
 
+const convertToGameBoard = (board) => {
+    return board.map((menuCell) => {
+        const { position, state } = menuCell;
+        const gameCell = {
+            position,
+            belongsTo: "P2",
+            state,
+        };
+        return gameCell;
+    });
+};
+
 io.on("connection", (socket) => {
     console.log(`User '${socket.id}' is connected`);
 
@@ -72,10 +84,11 @@ io.on("connection", (socket) => {
 
         const P1 = game.p1.id;
         const P2 = socket.id;
-        const boardP1 = game.p1.board;
-        const boardP2 = game.p2.board;
-        io.to(P1).emit("start_game", boardP2);
-        io.to(P2).emit("start_game", boardP1);
+        const boardP1 = convertToGameBoard(game.p1.board);
+        const boardP2 = convertToGameBoard(game.p2.board);
+        const turn = Math.random() < 0.5 ? "P1" : "P2";
+        io.to(P1).emit("start_game", boardP2, turn === "P1" ? "P1" : "P2");
+        io.to(P2).emit("start_game", boardP1, turn === "P2" ? "P1" : "P2");
     });
 
     socket.on("disconnect", () => {

@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
-import { GameBoardType, MenuBoardType, ShipCount } from '../types';
+import { GameBoardType, MenuBoardType, Player, ShipCount } from '../types';
 
 type MenuContextType = {
   boardSize: number;
@@ -12,6 +12,8 @@ type MenuContextType = {
   setOpponentBoard: Dispatch<SetStateAction<GameBoardType | null>>;
   isGameStarted: boolean,
   setIsGameStarted: Dispatch<SetStateAction<boolean>>;
+  turn: Player,
+  setTurn: Dispatch<SetStateAction<Player>>;
 };
 
 const MenuContext = createContext<MenuContextType | null>(null);

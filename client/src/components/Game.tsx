@@ -4,6 +4,7 @@ import {
     GameBoardType,
     GameCellState,
     Player,
+    GameCellType,
 } from "../types";
 import convertToGameBoard from "../utils/convertToGameBoard";
 import { useMenuContext } from "../context/UseMenuContext";
@@ -13,12 +14,12 @@ interface GameProps {
 }
 
 const Game: React.FC<GameProps> = ({ menuBoard }) => {
+    const { turn, setTurn } = useMenuContext();
     const [board, setBoard] = useState<GameBoardType>(
         convertToGameBoard(menuBoard)
     );
 
     const { opponentBoard } = useMenuContext();
-    const [turn, setTurn] = useState<Player>(Math.random() < 0.5 ? "P1" : "P2");
 
     return (
         <div className="game">
@@ -52,7 +53,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ board }) => {
                 }}
             >
                 {board.map((cell, cellIndex) => (
-                    <GameCell key={cellIndex} state={cell.state} />
+                    <GameCell key={cellIndex} cell={cell} />
                 ))}
             </div>
         </>
@@ -60,11 +61,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ board }) => {
 };
 
 type GameCellProps = {
-    state: GameCellState;
+    cell: GameCellType;
 };
 
-const GameCell: React.FC<GameCellProps> = ({ state }) => {
-    return <div className={`cell cell-${state}`}></div>;
+const GameCell: React.FC<GameCellProps> = ({ cell }) => {
+    return (
+        <div className={`cell cell-${cell.state} cell-${cell.belongsTo}`}></div>
+    );
 };
 
 export default Game;
