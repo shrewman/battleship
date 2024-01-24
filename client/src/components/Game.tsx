@@ -2,43 +2,43 @@ import { useState } from "react";
 import {
     MenuBoardType,
     GameBoardType,
-    ShipCount,
     GameCellState,
     Player,
 } from "../types";
-import GameContext from "../context/GameContext";
-import { useGameContext } from "../context/UseGameContext";
 import convertToGameBoard from "../utils/convertToGameBoard";
+import { useMenuContext } from "../context/UseMenuContext";
 
 interface GameProps {
     menuBoard: MenuBoardType;
-    shipCount: ShipCount[];
 }
 
-const Game: React.FC<GameProps> = ({ menuBoard, shipCount }) => {
-    const [gameShipCount, setGameShipCount] = useState<ShipCount[]>(shipCount);
+const Game: React.FC<GameProps> = ({ menuBoard }) => {
     const [board, setBoard] = useState<GameBoardType>(
         convertToGameBoard(menuBoard)
     );
+
+    const { opponentBoard } = useMenuContext();
     const [turn, setTurn] = useState<Player>(Math.random() < 0.5 ? "P1" : "P2");
 
     return (
-        <GameContext.Provider
-            value={{ gameShipCount, setGameShipCount, board, setBoard }}
-        >
-            <div className="game">
-                <div>{turn}</div>
-                <div className="game-boards">
-                    <GameBoard />
-                    <GameBoard />
-                </div>
+        <div className="game">
+            <div>{turn}</div>
+            <div className="game-boards">
+                <GameBoard board={board} />
+                {opponentBoard ? (
+                    <GameBoard board={opponentBoard} />
+                ) : (
+                    "Error getting a board"
+                )}
             </div>
-        </GameContext.Provider>
+        </div>
     );
 };
 
-const GameBoard = () => {
-    const { board, setBoard } = useGameContext();
+type GameBoardProps = {
+    board: GameBoardType;
+};
+const GameBoard: React.FC<GameBoardProps> = ({ board }) => {
     const boardSize = Math.sqrt(board.length);
 
     return (

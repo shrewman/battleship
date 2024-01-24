@@ -1,5 +1,5 @@
 import Options from "../Options";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMenuContext } from "../../context/UseMenuContext";
 import { generateRandomBoard } from "../../utils/gameLogic";
 import { socket } from "../../socket";
@@ -30,12 +30,25 @@ const Menu = () => {
         socket.connect();
         socket.emit("create_room", board, shipCount);
         setIsRoomCreated(true);
-        setIsModalOpen(false);
+        closeModal();
+    };
+
+    const handleJoinRoom = () => {
+        socket.connect();
+        socket.emit("join_room", roomCode, board, shipCount);
+        closeModal();
     };
 
     const exitRoom = () => {
         setIsRoomCreated(false);
+        setRoomCode(null);
     };
+
+    useEffect(() => {
+        socket.on("error", (error) => {
+            console.error("Socket.IO Error:", error.message);
+        });
+    }, []);
 
     return (
         <ModalContext.Provider value={{ roomCode, setRoomCode }}>
@@ -60,6 +73,7 @@ const Menu = () => {
                     <ModalRoom
                         onClose={closeModal}
                         handleCreateRoom={handleCreateRoom}
+                        handleJoinRoom={handleJoinRoom}
                     />
                 )}
             </div>

@@ -21,7 +21,7 @@ server.listen(PORT, () => {
     console.log(`Server is running on  http://localhost:${PORT}`);
 });
 
-const players = {};
+const games = [];
 
 function generateRandomRoom() {
     return Math.floor(100000 + Math.random() * 900000);
@@ -30,32 +30,52 @@ function generateRandomRoom() {
 io.on("connection", (socket) => {
     console.log(`User '${socket.id}' is connected`);
 
-    socket.on("join_room", (room, board, shipCount) => {
-        console.log("Joined room ", room);
-    })
-
     socket.on("create_room", (board, shipCount) => {
-        console.log("Created room ", generateRandomRoom());
-    })
-
-
-    socket.on("join_game", (board, shipCount) => {
         let room;
-
-        if (!players["P1"]) {
-            players["P1"] = { socket, board, shipCount };
+        do {
             room = generateRandomRoom();
-            socket.emit("player_assigned", "P1");
-        } else if (!players["P2"]) {
-            if (_.isEqual(players["P1"].shipCount, shipCount))
-                console.log("equal!");
-            players["P2"] = { socket, board, shipCount };
-            socket.emit("player_assigned", "P2");
+        } while (games.some((game) => game.room === room));
 
-            io.to(room).emit("start_game");
-        } else {
-            socket.emit("game_full");
+        const newGame = {
+            room,
+            isGameStarted: false,
+            p1: { id: socket.id, board },
+            p2: null,
+            shipCount,
+        };
+        games.push(newGame);
+        socket.join(room);
+        console.log(`P1 joined room ${room} with set of ships: ${shipCount}`);
+        io.emit("get_room_code", room);
+    });
+
+    socket.on("join_room", (room, board, shipCount) => {
+        const game = games.find((game) => game.room === room);
+        console.log(game);
+        if (!game) {
+            socket.emit(
+                "error",
+                new Error("There is no game with this room code.")
+            );
+            return;
         }
+        if (!_.isEqual(game.shipCount, shipCount)) {
+            socket.emit(
+                "error",
+                new Error("Players must have the same set of ships.")
+            );
+            return;
+        }
+        game.p2 = { id: socket.id, board };
+        socket.join(room);
+        console.log(`P2 joined room ${room} with set of ships: ${shipCount}`);
+
+        const P1 = game.p1.id;
+        const P2 = socket.id;
+        const boardP1 = game.p1.board;
+        const boardP2 = game.p2.board;
+        io.to(P1).emit("start_game", boardP2);
+        io.to(P2).emit("start_game", boardP1);
     });
 
     socket.on("disconnect", () => {

@@ -1,12 +1,19 @@
+import { useEffect } from "react";
 import { useModalContext } from "../../context/UseModalContext";
 import MenuBoard from "./MenuBoard";
+import { socket } from "../../socket";
 
 type WaitingOpponentProps = {
     exitRoom: () => void;
 };
 
 const WaitingOpponent: React.FC<WaitingOpponentProps> = ({ exitRoom }) => {
-    const { roomCode } = useModalContext();
+    const { roomCode, setRoomCode } = useModalContext();
+
+    useEffect(() => {
+        socket.on("get_room_code", (room: number) => setRoomCode(room));
+    }, []);
+
     return (
         <div className="waiting-opponent">
             <MenuBoard />

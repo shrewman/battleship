@@ -1,20 +1,15 @@
-import { socket } from "../../socket";
 import { useModalContext } from "../../context/UseModalContext";
-import { useMenuContext } from "../../context/UseMenuContext";
-
 type ModalRoomProps = {
     onClose: () => void;
     handleCreateRoom: () => void;
+    handleJoinRoom: () => void;
 };
-const ModalRoom: React.FC<ModalRoomProps> = ({ onClose, handleCreateRoom }) => {
-    const { board, shipCount } = useMenuContext();
+const ModalRoom: React.FC<ModalRoomProps> = ({
+    onClose,
+    handleCreateRoom,
+    handleJoinRoom,
+}) => {
     const { roomCode, setRoomCode } = useModalContext();
-
-    const handleJoinRoom = () => {
-        socket.connect();
-        socket.emit("join_room", roomCode, board, shipCount);
-        onClose();
-    };
 
     return (
         <div className="modal">
