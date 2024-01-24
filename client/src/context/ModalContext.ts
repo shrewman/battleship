@@ -1,8 +1,8 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 
 type ModalContextType = {
-    roomCode: number;
-    setRoomCode: Dispatch<SetStateAction<number>>;
+    roomCode: number | null;
+    setRoomCode: Dispatch<SetStateAction<number | null>>;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);

@@ -34,10 +34,10 @@ const ModalRoom: React.FC<ModalRoomProps> = ({ onClose, handleCreateRoom }) => {
                         onChange={(e) => {
                             const inputValue = e.target.value;
                             if (inputValue.length < 7) {
-                                setRoomCode(roomCode);
+                                setRoomCode(parseInt(inputValue));
                             }
                         }}
-                        value={roomCode}
+                        value={roomCode ?? 0}
                         className="w-2/3 text-center text-black"
                         id="input-room"
                         type="text"

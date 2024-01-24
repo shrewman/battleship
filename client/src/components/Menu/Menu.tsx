@@ -10,7 +10,7 @@ import ModalRoom from "./ModalRoom";
 
 const Menu = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [roomCode, setRoomCode] = useState<number>(111111);
+    const [roomCode, setRoomCode] = useState<number | null>(null);
     const [isRoomCreated, setIsRoomCreated] = useState(false);
     const { boardSize, shipCount, board, setBoard } = useMenuContext();
 
