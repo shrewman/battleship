@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu";
-import Game from "./components/Game";
 import MenuContext from "./context/MenuContext";
 import { MenuBoardType, ShipCount } from "./types";
 import { generateRandomBoard } from "./utils/gameLogic";
@@ -23,7 +22,7 @@ function App() {
 
     return (
         <>
-            <h1>Морський бій</h1>
+            <h1 className="font-bold text-2xl mb-5">Морський бій</h1>
             <MenuContext.Provider
                 value={{
                     boardSize,
@@ -38,7 +37,7 @@ function App() {
             >
                 {!isGameStarted && <Menu />}
             </MenuContext.Provider>
-            {isGameStarted && <Game menuBoard={board} shipCount={shipCount} />}
+            {/* {isGameStarted && <Game menuBoard={board} shipCount={shipCount} />} */}
         </>
     );
 }
