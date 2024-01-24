@@ -19,7 +19,11 @@ export default function ShipCountSelector({
     return (
         <div className="ship-count-selector">
             <label>{label}</label>
-            <select value={value} onChange={handleShipCountChange}>
+            <select
+                className="pr-10 text-black"
+                value={value}
+                onChange={handleShipCountChange}
+            >
                 {optionValues.map((val) => (
                     <option value={val} key={val}>
                         {val}
