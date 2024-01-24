@@ -51,8 +51,8 @@ io.on("connection", (socket) => {
         const newGame = {
             room,
             isGameStarted: false,
-            p1: { id: socket.id, board },
-            p2: null,
+            P1: { id: socket.id, board },
+            P2: null,
             shipCount,
         };
         games.push(newGame);
@@ -78,14 +78,14 @@ io.on("connection", (socket) => {
             );
             return;
         }
-        game.p2 = { id: socket.id, board };
+        game.P2 = { id: socket.id, board };
         socket.join(room);
         console.log(`P2 joined room ${room} with set of ships: ${shipCount}`);
 
-        const P1 = game.p1.id;
+        const P1 = game.P1.id;
         const P2 = socket.id;
-        const boardP1 = convertToGameBoard(game.p1.board);
-        const boardP2 = convertToGameBoard(game.p2.board);
+        const boardP1 = convertToGameBoard(game.P1.board);
+        const boardP2 = convertToGameBoard(game.P2.board);
         const turn = Math.random() < 0.5 ? "P1" : "P2";
         game.turn = turn;
         io.to(P1).emit("start_game", boardP2, turn === "P1" ? "P1" : "P2");
@@ -97,7 +97,7 @@ io.on("connection", (socket) => {
 
         const player = game.turn;
         const targetPlayer = player === "P1" ? "P2" : "P1";
-        const targetBoard = player === "P1" ? game.p2.board : game.p1.board;
+        const targetBoard = player === "P1" ? game.P2.board : game.P1.board;
         const targetCell = targetBoard.find((cell) =>
             _.isEqual(cell.position, position)
         );
@@ -112,16 +112,20 @@ io.on("connection", (socket) => {
         if (targetCell.state === "free") state = "free";
         else if (targetCell.state === "ship") state = "hit";
 
-        const response = {
-            position,
-            state,
-            belongsTo: targetPlayer,
-        };
-
         console.log(
             `${player} fired ${targetCell.position} it is ${targetCell.state}`
         );
-        io.to(room).emit("fire_result", response);
+
+        io.to(game[targetPlayer].id).emit("fire_result", {
+            position,
+            state,
+            belongsTo: "P1",
+        });
+        io.to(game[player].id).emit("fire_result", {
+            position,
+            state,
+            belongsTo: "P2",
+        });
     });
 
     socket.on("disconnect", () => {

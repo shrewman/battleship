@@ -20,14 +20,20 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
 
     useEffect(() => {
         socket.on("fire_result", (cell: GameCellType) => {
-            setOpponentBoard((prevBoard) => {
-                return prevBoard.map((item) => {
+            const update = (prev: GameBoardType) => {
+                return prev.map((item) => {
                     if (_.isEqual(cell.position, item.position)) {
                         return { ...item, state: cell.state };
                     }
                     return item;
                 });
-            });
+            };
+
+            if (cell.belongsTo === "P1") {
+                setBoard((prevBoard) => update(prevBoard));
+            } else {
+                setOpponentBoard((prevBoard) => update(prevBoard));
+            }
         });
     }, []);
 
