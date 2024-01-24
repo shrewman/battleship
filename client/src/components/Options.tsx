@@ -69,6 +69,7 @@ const Options = () => {
     };
 
     const handleClassicGame = () => {
+        const newBoardSize = 10;
         setBoardSize(10);
         const classicGameVariation: ShipCount[] = [
             { size: 5, count: 0 },
@@ -78,11 +79,12 @@ const Options = () => {
             { size: 1, count: 4 },
         ];
         setShipCount(classicGameVariation);
-        setBoard(generateRandomBoard(boardSize, classicGameVariation));
+        setBoard(generateRandomBoard(newBoardSize, classicGameVariation));
     };
 
     const handleHasbroGame = () => {
-        setBoardSize(10);
+        const newBoardSize = 10;
+        setBoardSize(newBoardSize);
         const hasbroGameVariation: ShipCount[] = [
             { size: 5, count: 1 },
             { size: 4, count: 1 },
@@ -91,7 +93,7 @@ const Options = () => {
             { size: 1, count: 0 },
         ];
         setShipCount(hasbroGameVariation);
-        setBoard(generateRandomBoard(boardSize, hasbroGameVariation));
+        setBoard(generateRandomBoard(newBoardSize, hasbroGameVariation));
     };
 
     return (
