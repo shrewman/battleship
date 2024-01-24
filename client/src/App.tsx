@@ -30,9 +30,8 @@ function App() {
         socket.on("start_game", (board) => {
             setIsGameStarted(true);
             setOpponentBoard(board);
-        })
-    }, [])
-
+        });
+    }, []);
 
     return (
         <>
@@ -48,13 +47,11 @@ function App() {
                     isGameStarted,
                     setIsGameStarted,
                     opponentBoard,
-                    setOpponentBoard
+                    setOpponentBoard,
                 }}
             >
                 {!isGameStarted && <Menu />}
-                {isGameStarted && (
-                    <Game menuBoard={board} shipCount={shipCount} />
-                )}
+                {isGameStarted && <Game menuBoard={board} />}
             </MenuContext.Provider>
         </>
     );
