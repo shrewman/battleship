@@ -54,6 +54,7 @@ io.on("connection", (socket) => {
             P1: { id: socket.id, board },
             P2: null,
             shipCount,
+            turn: null
         };
         games.push(newGame);
         socket.join(room);
@@ -86,18 +87,19 @@ io.on("connection", (socket) => {
         const P2 = socket.id;
         const boardP1 = convertToGameBoard(game.P1.board);
         const boardP2 = convertToGameBoard(game.P2.board);
-        const turn = Math.random() < 0.5 ? "P1" : "P2";
+        const turn = Math.random() < 0.5 ? 1 : 2;
         game.turn = turn;
-        io.to(P1).emit("start_game", boardP2, turn === "P1" ? "P1" : "P2");
-        io.to(P2).emit("start_game", boardP1, turn === "P2" ? "P1" : "P2");
+
+        io.to(P1).emit("start_game", boardP2, 1, turn);
+        io.to(P2).emit("start_game", boardP1, 2, turn);
     });
 
     socket.on("fire", (room, position) => {
         const game = games.find((game) => game.room === room);
 
         const player = game.turn;
-        const targetPlayer = player === "P1" ? "P2" : "P1";
-        const targetBoard = player === "P1" ? game.P2.board : game.P1.board;
+        const targetPlayer = player === 1 ? 2 : 1;
+        const targetBoard = player === 1 ? game.P2.board : game.P1.board;
         const targetCell = targetBoard.find((cell) =>
             _.isEqual(cell.position, position)
         );
@@ -107,25 +109,31 @@ io.on("connection", (socket) => {
             return;
         }
 
-        let state;
-
-        if (targetCell.state === "free") state = "free";
-        else if (targetCell.state === "ship") state = "hit";
-
         console.log(
-            `${player} fired ${targetCell.position} it is ${targetCell.state}`
+            `${player} fired ${targetCell.position.x}, ${targetCell.position.y} it is ${targetCell.state}`
         );
 
-        io.to(game[targetPlayer].id).emit("fire_result", {
+        const passTurn = () => {
+            console.log(`Was ${game.turn}'s turn`);
+            game.turn = game.turn === 1 ? 2 : 1;
+            console.log(`Now ${game.turn}'s turn`);
+        };
+
+        let state;
+        if (targetCell.state === "free") {
+            state = "miss";
+            passTurn();
+        } else if (targetCell.state === "ship") {
+            state = "hit";
+        }
+
+        const response = {
             position,
             state,
-            belongsTo: "P1",
-        });
-        io.to(game[player].id).emit("fire_result", {
-            position,
-            state,
-            belongsTo: "P2",
-        });
+            belongsTo: targetPlayer,
+        };
+
+        io.to(room).emit("fire_result", response, game.turn);
     });
 
     socket.on("disconnect", () => {

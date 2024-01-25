@@ -1,5 +1,11 @@
-import { SetStateAction, Dispatch, useEffect, useState } from "react";
-import { MenuBoardType, GameBoardType, GameCellType } from "../types";
+import { SetStateAction, Dispatch, useEffect, useState, useRef } from "react";
+import {
+    MenuBoardType,
+    GameBoardType,
+    GameCellType,
+    PlayerNum,
+    Position,
+} from "../types";
 import convertToGameBoard from "../utils/convertToGameBoard";
 import { useMenuContext } from "../context/UseMenuContext";
 import { socket } from "../socket";
@@ -16,10 +22,10 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
         convertToGameBoard(menuBoard)
     );
 
-    const { opponentBoard, setOpponentBoard } = useMenuContext();
+    const { opponentBoard, setOpponentBoard, player } = useMenuContext();
 
     useEffect(() => {
-        socket.on("fire_result", (cell: GameCellType) => {
+        socket.on("fire_result", (cell: GameCellType, turn: PlayerNum) => {
             const update = (prev: GameBoardType) => {
                 return prev.map((item) => {
                     if (_.isEqual(cell.position, item.position)) {
@@ -29,23 +35,30 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
                 });
             };
 
-            if (cell.belongsTo === "P1") {
+            if (cell.belongsTo === player.number) {
                 setBoard((prevBoard) => update(prevBoard));
             } else {
                 setOpponentBoard((prevBoard) => update(prevBoard));
             }
+            setTurn(turn);
         });
     }, []);
 
     return (
         <div className="game">
-            <div>{turn}</div>
+            <div>You: P{player.number}</div>
+            <div>Turn: P{turn}</div>
             <div className="game-boards">
-                <GameBoard board={board} setBoard={setBoard} />
+                <GameBoard
+                    board={board}
+                    setBoard={setBoard}
+                    belongsTo={player.number}
+                />
                 {opponentBoard && setOpponentBoard ? (
                     <GameBoard
                         board={opponentBoard}
                         setBoard={setOpponentBoard}
+                        belongsTo={player.number === 1 ? 2 : 1}
                     />
                 ) : (
                     "Error getting a board"
@@ -58,9 +71,22 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
 type GameBoardProps = {
     board: GameBoardType;
     setBoard: Dispatch<SetStateAction<GameBoardType>>;
+    belongsTo: PlayerNum;
 };
-const GameBoard: React.FC<GameBoardProps> = ({ board, setBoard }) => {
+const GameBoard: React.FC<GameBoardProps> = ({
+    board,
+    setBoard,
+    belongsTo,
+}) => {
     const boardSize = Math.sqrt(board.length);
+    const { turn, player } = useMenuContext();
+    const { room } = useRoomContext();
+
+    const fire = (position: Position) => {
+        if (turn === player.number && belongsTo !== player.number) {
+            socket.emit("fire", room, position);
+        }
+    };
 
     return (
         <>
@@ -73,7 +99,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ board, setBoard }) => {
                 }}
             >
                 {board.map((cell, cellIndex) => (
-                    <GameCell key={cellIndex} cell={cell} />
+                    <GameCell key={cellIndex} cell={cell} fire={fire} />
                 ))}
             </div>
         </>
@@ -82,25 +108,19 @@ const GameBoard: React.FC<GameBoardProps> = ({ board, setBoard }) => {
 
 type GameCellProps = {
     cell: GameCellType;
+    fire: (position: Position) => void;
 };
 
-const GameCell: React.FC<GameCellProps> = ({ cell }) => {
-    const { turn, setTurn } = useMenuContext();
-    const { room } = useRoomContext();
-    const passTurn = () => turn === "P1" && setTurn("P2");
+const GameCell: React.FC<GameCellProps> = ({ cell, fire }) => {
+    const { position } = cell;
 
-    const { belongsTo, position } = cell;
-
-    const fire = () => {
-        if (turn === "P1" && belongsTo === "P2") {
-            socket.emit("fire", room, position);
-            passTurn();
-        }
+    const handleFire = () => {
+        fire(position);
     };
 
     return (
         <div
-            onClick={fire}
+            onClick={handleFire}
             className={`cell cell-${cell.state} cell-${cell.belongsTo}`}
         ></div>
     );

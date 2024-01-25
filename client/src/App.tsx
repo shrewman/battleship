@@ -3,7 +3,13 @@ import "./App.css";
 import Menu from "./components/Menu/Menu";
 import Game from "./components/Game";
 import MenuContext from "./context/MenuContext";
-import { GameBoardType, MenuBoardType, Player, ShipCount } from "./types";
+import {
+    GameBoardType,
+    MenuBoardType,
+    Player,
+    PlayerNum,
+    ShipCount,
+} from "./types";
 import { generateRandomBoard } from "./utils/gameLogic";
 import { socket } from "./socket";
 import RoomContext from "./context/RoomContext";
@@ -25,14 +31,26 @@ function App() {
 
     const [room, setRoom] = useState<number | null>(null);
     const [opponentBoard, setOpponentBoard] = useState<GameBoardType>([]);
-    const [turn, setTurn] = useState<Player>("P1");
+    const [player, setPlayer] = useState<Player>({
+        number: 1,
+        label: "You",
+    });
+    const [turn, setTurn] = useState<PlayerNum>(1);
 
     useEffect(() => {
-        socket.on("start_game", (board: GameBoardType, turn: Player) => {
-            setIsGameStarted(true);
-            setOpponentBoard(board);
-            setTurn(turn);
-        });
+        socket.on(
+            "start_game",
+            (
+                opponentBoard: GameBoardType,
+                playerNumber: PlayerNum,
+                firstTurn: PlayerNum
+            ) => {
+                setIsGameStarted(true);
+                setOpponentBoard(opponentBoard);
+                setPlayer({ number: playerNumber, label: "You" });
+                setTurn(firstTurn);
+            }
+        );
     }, []);
 
     return (
@@ -52,6 +70,8 @@ function App() {
                         setOpponentBoard,
                         isGameStarted,
                         setIsGameStarted,
+                        player,
+                        setPlayer,
                         turn,
                         setTurn,
                     }}

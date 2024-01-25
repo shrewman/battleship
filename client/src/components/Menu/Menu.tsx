@@ -1,5 +1,5 @@
 import Options from "../Options";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMenuContext } from "../../context/UseMenuContext";
 import { generateRandomBoard } from "../../utils/gameLogic";
 import { socket } from "../../socket";
@@ -43,12 +43,6 @@ const Menu = () => {
         setIsRoomCreated(false);
         setRoom(null);
     };
-
-    useEffect(() => {
-        socket.on("error", (error) => {
-            console.error("Socket.IO Error:", error.message);
-        });
-    }, []);
 
     return (
             <div className="menu">

@@ -16,7 +16,12 @@ export type ShipCount = {
     count: number;
 };
 
-export type Player = "P1" | "P2";
+export type PlayerNum = 1 | 2;
+
+export type Player = {
+    number: PlayerNum;
+    label: "You" | "Opponent";
+};
 
 export type MenuCellState = "free" | "ship";
 
@@ -27,12 +32,17 @@ export type MenuCellType = {
 
 export type MenuBoardType = MenuCellType[];
 
-
-export type GameCellState = "free" | "ship" | "miss" | "hit" | "destroyed" | "unknown";
+export type GameCellState =
+    | "free"
+    | "ship"
+    | "miss"
+    | "hit"
+    | "destroyed"
+    | "unknown";
 
 export type GameCellType = {
     position: Position;
-    belongsTo: Player;
+    belongsTo: PlayerNum;
     state: MenuCellState;
 };
 
