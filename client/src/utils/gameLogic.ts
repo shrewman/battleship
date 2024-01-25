@@ -1,4 +1,4 @@
-import { MenuBoardType, MenuCellType, Ship, ShipCount } from "../types";
+import { GameBoardType, MenuBoardType, MenuCellType, PlayerNum, Ship, ShipCount } from "../types";
 import isValidShipPlacement from "./isValidShipPlacement";
 
 const { random, floor } = Math;
@@ -22,7 +22,7 @@ function placeShip(board: MenuBoardType, ship: Ship) {
     }
 }
 
-function initEmptyBoard(boardSize: number) {
+export function initEmptyBoard(boardSize: number) {
     const board: MenuBoardType = [];
     for (let y = 0; y < boardSize; y++) {
         for (let x = 0; x < boardSize; x++) {
@@ -31,6 +31,17 @@ function initEmptyBoard(boardSize: number) {
     }
     return board;
 }
+
+export function initEmptyGameBoard(boardSize: number, belongsTo: PlayerNum) {
+    const board: GameBoardType = [];
+    for (let y = 0; y < boardSize; y++) {
+        for (let x = 0; x < boardSize; x++) {
+            board.push({ position: { x, y }, state: "free", belongsTo });
+        }
+    }
+    return board;
+}
+
 
 export function generateRandomBoard(
     boardSize: number,

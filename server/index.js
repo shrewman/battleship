@@ -94,8 +94,8 @@ io.on("connection", (socket) => {
         const turn = Math.random() < 0.5 ? 1 : 2;
         game.turn = turn;
 
-        io.to(P1).emit("start_game", boardP2, 1, turn);
-        io.to(P2).emit("start_game", boardP1, 2, turn);
+        io.to(P1).emit("start_game", 1, turn);
+        io.to(P2).emit("start_game", 2, turn);
     });
 
     socket.on("fire", (room, position) => {
@@ -143,8 +143,25 @@ io.on("connection", (socket) => {
         io.to(player.id).emit("update_score", player.score);
 
         if (!containsShips(targetBoard)) {
-            io.to(player.id).emit("game_result", "You won!", player.score);
-            io.to(targetPlayer.id).emit("game_result", "You lost.", targetPlayer.score);
+            const countStates = (board, state) =>
+                board.filter((cell) => cell.state === state).length;
+
+            const resultsWon = {
+                won: true,
+                misses: countStates(targetPlayer.board, "miss") ?? 0,
+                hits: countStates(targetPlayer.board, "hit") ?? 0,
+                score: player.score ?? 0,
+            };
+
+            const resultsLost = {
+                won: false,
+                misses: countStates(player.board, "miss") ?? 0,
+                hit: countStates(player.board, "hit") ?? 0,
+                score: player.score ?? 0,
+            };
+
+            io.to(player.id).emit("game_result", resultsWon);
+            io.to(targetPlayer.id).emit("game_result", resultsLost);
         }
     });
 

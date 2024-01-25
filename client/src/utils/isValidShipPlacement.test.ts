@@ -1,6 +1,6 @@
 import { it, expect } from "vitest";
 import isValidShipPlacement from "./isValidShipPlacement";
-import { Board, Ship } from "../types";
+import { MenuBoardType, Ship } from "../types";
 
 // f - free cell
 // p - placing ship
@@ -15,7 +15,7 @@ import { Board, Ship } from "../types";
 // ┗━━━━━━━━━━━━━┛
 
 it("should return true when ship has horizontal orientation and size smaller than the board size", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -46,7 +46,7 @@ it("should return true when ship has horizontal orientation and size smaller tha
 });
 
 it("should return true when a ship has horizontal orientation and size is exactly as big as the board size", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -77,7 +77,7 @@ it("should return true when a ship has horizontal orientation and size is exactl
 });
 
 it("should return false when a ship has horizontal orientation and size bigger than the board size", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -109,7 +109,7 @@ it("should return false when a ship has horizontal orientation and size bigger t
 
 // should return true when given a valid board and a ship with vertical orientation and size smaller than the board size
 it("should return true when a ship has vertical orientation and size smaller than the board size", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -139,7 +139,7 @@ it("should return true when a ship has vertical orientation and size smaller tha
 });
 
 it("should return true when a ship has vertical orientation and size is exactly as big as the board size", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -169,7 +169,7 @@ it("should return true when a ship has vertical orientation and size is exactly 
 });
 
 it("should return false when a ship has vertical orientation and size bigger than the board size", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -200,7 +200,7 @@ it("should return false when a ship has vertical orientation and size bigger tha
 });
 
 it("should return true when placed ship is not on the way of current horizontal ship", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "ship" },
@@ -230,7 +230,7 @@ it("should return true when placed ship is not on the way of current horizontal 
 });
 
 it("should return true when placed ship is not on the way of current vertical ship", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -260,7 +260,7 @@ it("should return true when placed ship is not on the way of current vertical sh
 });
 
 it("should return false when placed ship is on the way of current horizontal ship", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -290,7 +290,7 @@ it("should return false when placed ship is on the way of current horizontal shi
 });
 
 it("should return false when placed ship is on the way of current vertical ship", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "ship" },
@@ -320,7 +320,7 @@ it("should return false when placed ship is on the way of current vertical ship"
 });
 
 it("should return false when placed ship is diagonally adjacent to current horizontal ship", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -350,7 +350,7 @@ it("should return false when placed ship is diagonally adjacent to current horiz
 });
 
 it("should return false when placed ship is diagonally adjacent to current vertical ship", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -380,7 +380,7 @@ it("should return false when placed ship is diagonally adjacent to current verti
 });
 
 it("should return false when placed ship is out of bounds", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -410,7 +410,7 @@ it("should return false when placed ship is out of bounds", () => {
 });
 
 it("should return false when placed ship is out of bounds", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -440,7 +440,7 @@ it("should return false when placed ship is out of bounds", () => {
 });
 
 it("should return false when placed ship is out of bounds", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },
@@ -471,7 +471,7 @@ it("should return false when placed ship is out of bounds", () => {
 });
 
 it("should return false when placed ship is out of bounds", () => {
-    const board: Board = [
+    const board: MenuBoardType = [
         { position: { x: 0, y: 0 }, state: "free" },
         { position: { x: 0, y: 1 }, state: "free" },
         { position: { x: 0, y: 2 }, state: "free" },

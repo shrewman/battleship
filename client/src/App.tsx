@@ -10,9 +10,14 @@ import {
     PlayerNum,
     ShipCount,
 } from "./types";
-import { generateRandomBoard } from "./utils/gameLogic";
+import {
+    generateRandomBoard,
+    initEmptyBoard,
+    initEmptyGameBoard,
+} from "./utils/gameLogic";
 import { socket } from "./socket";
 import RoomContext from "./context/RoomContext";
+import SocketError from "./components/SocketError";
 
 function App() {
     const [isGameStarted, setIsGameStarted] = useState(false);
@@ -36,21 +41,25 @@ function App() {
         label: "You",
     });
     const [turn, setTurn] = useState<PlayerNum>(1);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleCloseError = () => {
+        setErrorMessage("");
+    };
 
     useEffect(() => {
         socket.on(
             "start_game",
-            (
-                opponentBoard: GameBoardType,
-                playerNumber: PlayerNum,
-                firstTurn: PlayerNum
-            ) => {
+            (playerNumber: PlayerNum, firstTurn: PlayerNum) => {
                 setIsGameStarted(true);
-                setOpponentBoard(opponentBoard);
+                setOpponentBoard(initEmptyGameBoard(boardSize, playerNumber));
                 setPlayer({ number: playerNumber, label: "You" });
                 setTurn(firstTurn);
             }
         );
+        socket.on("error", (error: Error) => {
+            setErrorMessage(error.message);
+        });
     }, []);
 
     return (
@@ -78,6 +87,12 @@ function App() {
                 >
                     {!isGameStarted && <Menu />}
                     {isGameStarted && <Game menuBoard={board} />}
+                    {errorMessage && (
+                        <SocketError
+                            errorMessage={errorMessage}
+                            onClose={handleCloseError}
+                        />
+                    )}
                 </MenuContext.Provider>
             </RoomContext.Provider>
         </>

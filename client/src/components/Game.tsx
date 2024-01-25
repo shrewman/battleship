@@ -46,8 +46,9 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
         socket.on("update_score", (score) => {
             setScore(score);
         });
-        socket.on("game_result", (result, score) => {
-            alert(result + "\nYour score: " + score);
+        socket.on("game_result", (results) => {
+            const { won, misses, hits, score } = results;
+            alert((won ? "You won!" : "You lost.") + `\nMisses: ${misses}\nHits: ${hits}\nScore: ${score}` );
         });
     }, []);
 
