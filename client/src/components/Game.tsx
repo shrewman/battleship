@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     MenuBoardType,
     GameBoardType,
@@ -45,7 +45,10 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
         });
         socket.on("update_score", (score) => {
             setScore(score);
-        })
+        });
+        socket.on("game_result", (result, score) => {
+            alert(result + "\nYour score: " + score);
+        });
     }, []);
 
     return (
@@ -54,10 +57,7 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
             <div>Turn: P{turn}</div>
             <div>Score: {score}</div>
             <div className="game-boards">
-                <GameBoard
-                    board={board}
-                    belongsTo={player.number}
-                />
+                <GameBoard board={board} belongsTo={player.number} />
                 {opponentBoard ? (
                     <GameBoard
                         board={opponentBoard}
@@ -75,11 +75,8 @@ type GameBoardProps = {
     board: GameBoardType;
     belongsTo: PlayerNum;
 };
-const GameBoard: React.FC<GameBoardProps> = ({
-    board,
-    belongsTo,
-}) => {
-    const clickSound = new Audio('./src/assets/explosion.mp3');
+const GameBoard: React.FC<GameBoardProps> = ({ board, belongsTo }) => {
+    const clickSound = new Audio("./src/assets/explosion.mp3");
     const boardSize = Math.sqrt(board.length);
     const { turn, player } = useMenuContext();
     const { room } = useRoomContext();

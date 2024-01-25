@@ -39,6 +39,10 @@ const convertToGameBoard = (board) => {
     });
 };
 
+const containsShips = (board) => {
+    return board.some((cell) => cell.state === "ship");
+};
+
 io.on("connection", (socket) => {
     console.log(`User '${socket.id}' is connected`);
 
@@ -137,6 +141,11 @@ io.on("connection", (socket) => {
 
         io.to(room).emit("fire_result", response, game.turn);
         io.to(player.id).emit("update_score", player.score);
+
+        if (!containsShips(targetBoard)) {
+            io.to(player.id).emit("game_result", "You won!", player.score);
+            io.to(targetPlayer.id).emit("game_result", "You lost.", targetPlayer.score);
+        }
     });
 
     socket.on("disconnect", () => {
