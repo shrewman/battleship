@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch, useEffect, useState, useRef } from "react";
+import { SetStateAction, Dispatch, useEffect, useState } from "react";
 import {
     MenuBoardType,
     GameBoardType,
@@ -78,12 +78,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
     setBoard,
     belongsTo,
 }) => {
+    // const clickSound = new Audio('./src/assets/explosion.mp3');
     const boardSize = Math.sqrt(board.length);
     const { turn, player } = useMenuContext();
     const { room } = useRoomContext();
 
     const fire = (position: Position) => {
         if (turn === player.number && belongsTo !== player.number) {
+            // clickSound.play();
             socket.emit("fire", room, position);
         }
     };
@@ -115,7 +117,7 @@ const GameCell: React.FC<GameCellProps> = ({ cell, fire }) => {
     const { position } = cell;
 
     const handleFire = () => {
-        fire(position);
+        if (cell.state !== "hit") fire(position);
     };
 
     return (

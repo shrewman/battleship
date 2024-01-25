@@ -43,7 +43,7 @@ export type GameCellState =
 export type GameCellType = {
     position: Position;
     belongsTo: PlayerNum;
-    state: MenuCellState;
+    state: GameCellState;
 };
 
 type GameBoardType = GameCellType[];

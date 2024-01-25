@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
             P1: { id: socket.id, board },
             P2: null,
             shipCount,
-            turn: null
+            turn: null,
         };
         games.push(newGame);
         socket.join(room);
@@ -100,36 +100,37 @@ io.on("connection", (socket) => {
         const player = game.turn;
         const targetPlayer = player === 1 ? 2 : 1;
         const targetBoard = player === 1 ? game.P2.board : game.P1.board;
-        const targetCell = targetBoard.find((cell) =>
+
+        const targetCellIndex = targetBoard.findIndex((cell) =>
             _.isEqual(cell.position, position)
         );
 
-        if (!targetCell) {
+        if (targetCellIndex === -1) {
             socket.emit("error", new Error("Invalid position."));
             return;
         }
 
-        console.log(
-            `${player} fired ${targetCell.position.x}, ${targetCell.position.y} it is ${targetCell.state}`
-        );
-
         const passTurn = () => {
-            console.log(`Was ${game.turn}'s turn`);
             game.turn = game.turn === 1 ? 2 : 1;
-            console.log(`Now ${game.turn}'s turn`);
         };
 
-        let state;
-        if (targetCell.state === "free") {
-            state = "miss";
+        const state = targetBoard[targetCellIndex].state;
+        let newState;
+        if (state === "free") {
+            newState = "miss";
             passTurn();
-        } else if (targetCell.state === "ship") {
-            state = "hit";
+        } else if (targetBoard[targetCellIndex].state === "ship") {
+            newState = "hit";
+        } else if (targetBoard[targetCellIndex].state === "hit") {
+            return;
         }
+        targetBoard[targetCellIndex].state = newState;
+
+        console.log(`Player ${player} fired: ${newState}`);
 
         const response = {
             position,
-            state,
+            state: newState,
             belongsTo: targetPlayer,
         };
 
