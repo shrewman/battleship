@@ -17,6 +17,7 @@ interface GameProps {
 }
 
 const Game: React.FC<GameProps> = ({ menuBoard }) => {
+    const [score, setScore] = useState(0);
     const { turn, setTurn } = useMenuContext();
     const [board, setBoard] = useState<GameBoardType>(
         convertToGameBoard(menuBoard)
@@ -42,22 +43,24 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
             }
             setTurn(turn);
         });
+        socket.on("update_score", (score) => {
+            setScore(score);
+        })
     }, []);
 
     return (
         <div className="game">
             <div>You: P{player.number}</div>
             <div>Turn: P{turn}</div>
+            <div>Score: {score}</div>
             <div className="game-boards">
                 <GameBoard
                     board={board}
-                    setBoard={setBoard}
                     belongsTo={player.number}
                 />
-                {opponentBoard && setOpponentBoard ? (
+                {opponentBoard ? (
                     <GameBoard
                         board={opponentBoard}
-                        setBoard={setOpponentBoard}
                         belongsTo={player.number === 1 ? 2 : 1}
                     />
                 ) : (
@@ -70,22 +73,20 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
 
 type GameBoardProps = {
     board: GameBoardType;
-    setBoard: Dispatch<SetStateAction<GameBoardType>>;
     belongsTo: PlayerNum;
 };
 const GameBoard: React.FC<GameBoardProps> = ({
     board,
-    setBoard,
     belongsTo,
 }) => {
-    // const clickSound = new Audio('./src/assets/explosion.mp3');
+    const clickSound = new Audio('./src/assets/explosion.mp3');
     const boardSize = Math.sqrt(board.length);
     const { turn, player } = useMenuContext();
     const { room } = useRoomContext();
 
     const fire = (position: Position) => {
         if (turn === player.number && belongsTo !== player.number) {
-            // clickSound.play();
+            clickSound.play();
             socket.emit("fire", room, position);
         }
     };

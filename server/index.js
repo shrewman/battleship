@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
         const newGame = {
             room,
             isGameStarted: false,
-            P1: { id: socket.id, board },
+            P1: { id: socket.id, number: 1, board, score: 0 },
             P2: null,
             shipCount,
             turn: null,
@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
             );
             return;
         }
-        game.P2 = { id: socket.id, board };
+        game.P2 = { id: socket.id, number: 2, board, score: 0 };
         socket.join(room);
         console.log(`P2 joined room ${room} with set of ships: ${shipCount}`);
 
@@ -97,9 +97,9 @@ io.on("connection", (socket) => {
     socket.on("fire", (room, position) => {
         const game = games.find((game) => game.room === room);
 
-        const player = game.turn;
-        const targetPlayer = player === 1 ? 2 : 1;
-        const targetBoard = player === 1 ? game.P2.board : game.P1.board;
+        const player = game[`P${game.turn}`];
+        const targetPlayer = game[`P${game.turn === 1 ? 2 : 1}`];
+        const targetBoard = targetPlayer.board;
 
         const targetCellIndex = targetBoard.findIndex((cell) =>
             _.isEqual(cell.position, position)
@@ -121,20 +121,22 @@ io.on("connection", (socket) => {
             passTurn();
         } else if (targetBoard[targetCellIndex].state === "ship") {
             newState = "hit";
+            player.score += 20;
         } else if (targetBoard[targetCellIndex].state === "hit") {
             return;
         }
         targetBoard[targetCellIndex].state = newState;
 
-        console.log(`Player ${player} fired: ${newState}`);
+        console.log(`Player ${player.number} fired: ${newState}`);
 
         const response = {
             position,
             state: newState,
-            belongsTo: targetPlayer,
+            belongsTo: targetPlayer.number,
         };
 
         io.to(room).emit("fire_result", response, game.turn);
+        io.to(player.id).emit("update_score", player.score);
     });
 
     socket.on("disconnect", () => {
