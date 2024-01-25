@@ -12,12 +12,13 @@ import {
 } from "./types";
 import {
     generateRandomBoard,
-    initEmptyBoard,
     initEmptyGameBoard,
 } from "./utils/gameLogic";
 import { socket } from "./socket";
 import RoomContext from "./context/RoomContext";
 import SocketError from "./components/SocketError";
+import ReactAudioPlayer from "react-audio-player";
+import musicFile from "../src/assets/music.wav";
 
 function App() {
     const [isGameStarted, setIsGameStarted] = useState(false);
@@ -95,6 +96,7 @@ function App() {
                     )}
                 </MenuContext.Provider>
             </RoomContext.Provider>
+            <ReactAudioPlayer src={musicFile} autoPlay />
         </>
     );
 }
