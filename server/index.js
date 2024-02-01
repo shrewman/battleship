@@ -15,6 +15,7 @@ const io = new Server(server, {
     },
 });
 
+<<<<<<< HEAD
 const PORT = 3001;
 server.listen(PORT, () => {
     console.log(`Сервер запущен на порту ${PORT}`);
@@ -36,5 +37,23 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("Пользователь отключен");
+=======
+const PORT = 4000;
+server.listen(PORT, () => {
+    console.log(`Server is running on  http://localhost:${PORT}`);
+});
+
+io.on("connection", (socket) => {
+    console.log(`User '${socket.id}' is connected`);
+
+    socket.on("send_board", (board) => {
+        // ...
+        // socket.to(roomCode).emit("start_game", data);
+    });
+
+
+    socket.on("disconnect", () => {
+        console.log("User is disconnected");
+>>>>>>> battleship-game/main
     });
 });
