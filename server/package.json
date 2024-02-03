@@ -1,39 +1,27 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-<<<<<<< HEAD
-    "start": "nodemon index.js",
-=======
-<<<<<<< HEAD
-    "start": "nodemon index.js"
-=======
->>>>>>> 283dda355aaedcfeff0006473dab50500f6b44ef
-    "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> battleship-game/main
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-<<<<<<< HEAD
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "nodemon": "^3.0.3",
-=======
-  "devDependencies": {
-    "nodemon": "^3.0.3"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-<<<<<<< HEAD
-    "lodash": "^4.17.21",
-=======
->>>>>>> battleship-game/main
->>>>>>> 283dda355aaedcfeff0006473dab50500f6b44ef
-    "socket.io": "^4.7.4"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "nodemon": "^3.0.3",
+        "devDependencies": {
+            "nodemon": "^3.0.3"
+        },
+        "dependencies": {
+            "cors": "^2.8.5",
+            "express": "^4.18.2",
+            "lodash": "^4.17.21",
+            "socket.io": "^4.7.4"
+        }
+    }
 }
