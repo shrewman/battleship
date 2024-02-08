@@ -35,7 +35,7 @@ const ModalRoom: React.FC<ModalRoomProps> = ({
                         value={room ?? ""}
                         className="w-2/3 text-center text-black"
                         id="input-room"
-                        type="text"
+                        type="number"
                         placeholder="Номер кімнати"
                     />
                     <div>
