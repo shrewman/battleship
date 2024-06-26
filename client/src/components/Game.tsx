@@ -53,21 +53,26 @@ const Game: React.FC<GameProps> = ({ menuBoard }) => {
     }, []);
 
     return (
-        <div className="game">
-            <div>You: P{player.number}</div>
-            <div>Turn: P{turn}</div>
-            <div>Score: {score}</div>
-            <div className="game-boards">
+        <div className="flex justify-center items-center gap-10 bg-slate-700 px-10 py-5 rounded-xl">
+            <div>
+                <div>You: P{player.number}</div>
                 <GameBoard board={board} belongsTo={player.number} />
-                {opponentBoard ? (
+            </div>
+            <div className="grid gap-10">
+                <div>Turn: P{turn}</div>
+                <div>Score: {score}</div>
+            </div>
+            {opponentBoard ? (
+                <div>
+                    <div>Opponent: P{player.number === 1 ? 2 : 1}</div>
                     <GameBoard
                         board={opponentBoard}
                         belongsTo={player.number === 1 ? 2 : 1}
                     />
-                ) : (
-                    "Error getting a board"
-                )}
-            </div>
+                </div>
+            ) : (
+                "Error getting a board"
+            )}
         </div>
     );
 };
