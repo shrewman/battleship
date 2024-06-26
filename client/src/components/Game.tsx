@@ -121,7 +121,7 @@ const GameCell: React.FC<GameCellProps> = ({ cell, fire }) => {
     const { position } = cell;
 
     const handleFire = () => {
-        if (cell.state !== "hit") fire(position);
+        if (cell.state !== "hit" && cell.state !== "miss") fire(position);
     };
 
     return (
